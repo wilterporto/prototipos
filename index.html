@@ -700,6 +700,7 @@
             box-shadow: 0 1px 2px rgba(0,0,0,0.2);
         }
     </style>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 
 <body>
@@ -755,13 +756,16 @@
                 </div>
                 <i class="fa-regular fa-square-plus menu-item-icon-box"></i>
             </a>
-            <a href="#" class="menu-item">
+            <a href="#" class="menu-item" onclick="toggleAluno(event)">
                 <div class="menu-item-left">
                     <i class="fa-solid fa-graduation-cap"></i>
                     <span>Aluno</span>
                 </div>
-                <i class="fa-regular fa-square-plus menu-item-icon-box"></i>
+                <i id="aluno-icon" class="fa-regular fa-square-plus menu-item-icon-box"></i>
             </a>
+            <div id="aluno-submenu" class="submenu" style="display: none;">
+                <a href="#" class="submenu-item" onclick="abrirDashboardAluno(event)">Dashboard</a>
+            </div>
             <a href="#" class="menu-item">
                 <div class="menu-item-left">
                     <i class="fa-solid fa-building"></i>
@@ -1669,10 +1673,10 @@
                                 <span><i class="fa-solid fa-tree-city" style="color: #10b981; margin-right: 6px;"></i> Zona de Residência</span>
                                 <span style="font-size: 0.7rem; color: #94a3b8; font-weight: normal;">Urbana vs. Rural</span>
                             </h3>
-                            <div style="display: flex; align-items: flex-end; justify-content: space-around; height: 130px; border-bottom: 1px solid #e2e8f0; padding-bottom: 8px;">
+                            <div style="display: flex; align-items: flex-end; justify-content: space-around; height: 150px; border-bottom: 1px solid #e2e8f0; padding-bottom: 8px; margin-top: 15px;">
                                 <div style="display: flex; flex-direction: column; align-items: center; gap: 6px; width: 80px;">
                                     <span style="font-size: 0.8rem; font-weight: 700; color: #1e293b;">1.210 (85%)</span>
-                                    <div style="width: 45px; height: 95px; background: #3b7bbd; border-radius: 4px 4px 0 0;"></div>
+                                    <div style="width: 45px; height: 80px; background: #3b7bbd; border-radius: 4px 4px 0 0;"></div>
                                     <span style="font-size: 0.75rem; font-weight: 600; color: #475569;">Urbana</span>
                                 </div>
                                 <div style="display: flex; flex-direction: column; align-items: center; gap: 6px; width: 80px;">
@@ -2368,6 +2372,394 @@
 
 
 
+            </div>
+
+                        <!-- Dashboard do Aluno -->
+            <div id="view-dashboard-aluno" style="display: none;">
+                <!-- Cabeçalho -->
+                <div style="background: white; border: 1px solid var(--border-color); border-radius: 10px; padding: 24px 30px; margin-bottom: 20px; box-shadow: 0 2px 6px rgba(0,0,0,0.03); position: relative; overflow: hidden; display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 20px;">
+                    <div style="position: absolute; left: 0; top: 0; bottom: 0; width: 4px; background: linear-gradient(to bottom, #0284c7, #3b82f6, #10b981);"></div>
+                    <div>
+                        <div style="display: flex; align-items: center; gap: 6px; font-size: 0.75rem; font-weight: 700; color: #0284c7; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 6px;">
+                            <i class="fa-solid fa-graduation-cap"></i> ALUNO
+                        </div>
+                        <h1 style="font-size: 1.7rem; font-weight: 700; color: #0f172a; margin: 0 0 6px 0; letter-spacing: -0.3px;">
+                            Dashboard de Alunos
+                        </h1>
+                        <div style="font-size: 0.9rem; color: #64748b; margin-bottom: 16px;">
+                            Visão geral dos alunos matriculados na rede estadual.
+                        </div>
+                        <button onclick="toggleFiltrosTopoAluno(event)" class="btn-outline" style="background: white; border: 1px solid #cbd5e1; color: #334155; font-size: 0.85rem; font-weight: 600; padding: 7px 18px; border-radius: 6px; display: inline-flex; align-items: center; gap: 8px; cursor: pointer; box-shadow: 0 1px 2px rgba(0,0,0,0.03);">
+                            <span>Filtros</span> <i id="icone-toggle-filtros-aluno" class="fa-solid fa-chevron-down" style="font-size: 0.75rem; transition: transform 0.2s;"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Painel de Filtros Oculto -->
+                <div id="painel-filtros-topo-aluno" style="background: white; border: 1px solid var(--border-color); border-radius: 8px; padding: 24px 30px; margin-bottom: 25px; box-shadow: 0 1px 3px rgba(0,0,0,0.03); display: none;">
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 20px; margin-bottom: 20px;">
+                        <div>
+                            <label style="display: block; font-size: 0.8rem; font-weight: 700; color: #475569; margin-bottom: 6px;">Diretoria Regional</label>
+                            <select id="filtro-regional-topo-aluno" style="width: 100%; padding: 9px 12px; border: 1px solid #cbd5e1; border-radius: 6px; outline: none; font-size: 0.85rem; color: #334155; background: white;">
+                                <option value="TODAS">Todas</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label style="display: block; font-size: 0.8rem; font-weight: 700; color: #475569; margin-bottom: 6px;">Município</label>
+                            <select id="filtro-municipio-topo-aluno" style="width: 100%; padding: 9px 12px; border: 1px solid #cbd5e1; border-radius: 6px; outline: none; font-size: 0.85rem; color: #334155; background: white;">
+                                <option value="TODOS">Todos</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label style="display: block; font-size: 0.8rem; font-weight: 700; color: #475569; margin-bottom: 6px;">Escola</label>
+                            <select id="filtro-escola-topo-aluno" style="width: 100%; padding: 9px 12px; border: 1px solid #cbd5e1; border-radius: 6px; outline: none; font-size: 0.85rem; color: #334155; background: white;">
+                                <option value="TODAS">Todas</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <!-- NOVO KPI E GRÁFICO DE FREQUÊNCIA -->
+                <div style="display: grid; grid-template-columns: 1fr 3fr; gap: 20px; margin-bottom: 25px;">
+                    
+                    <!-- Card de Turmas com Frequência Incompleta -->
+                    <div style="background: #ef4444; border-radius: 10px; padding: 16px 18px; color: white; box-shadow: 0 4px 10px rgba(239, 68, 68, 0.3); display: flex; flex-direction: column; justify-content: space-between; min-height: 105px;">
+                        <div style="display: flex; justify-content: space-between; align-items: flex-start; gap: 10px;">
+                            <span style="font-size: 0.72rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.4px; line-height: 1.25;">Turmas c/ Freq. Incompleta no Dia</span>
+                            <i class="fa-solid fa-clipboard-user" style="font-size: 1.3rem; opacity: 0.85;"></i>
+                        </div>
+                        <div style="font-size: 2.1rem; font-weight: 800; line-height: 1; margin-top: 10px;">42</div>
+                    </div>
+
+                    <!-- Gráfico de Frequência 15 Dias -->
+                    <div style="background: white; border: 1px solid var(--border-color); border-radius: 10px; padding: 20px; box-shadow: 0 2px 6px rgba(0,0,0,0.03);">
+                        <h3 style="font-size: 1rem; font-weight: 700; color: #1e293b; margin: 0 0 15px 0;">Frequência - Últimos 15 dias (Mês Atual)</h3>
+                        <div style="height: 200px; width: 100%;">
+                            <canvas id="chart-frequencia-15d"></canvas>
+                        </div>
+                    </div>
+
+                </div>
+
+
+                <!-- Cards KPI Destacados -->
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; margin-bottom: 25px;">
+                    <!-- Total Matriculados -->
+                    <div style="background: white; border: 1px solid var(--border-color); border-radius: 8px; padding: 20px; box-shadow: 0 1px 3px rgba(0,0,0,0.04); display: flex; align-items: center; justify-content: space-between;">
+                        <div>
+                            <div style="font-size: 0.75rem; font-weight: 700; color: #64748b; text-transform: uppercase;">Total de Alunos Matriculados</div>
+                            <div style="font-size: 2.2rem; font-weight: 800; color: var(--primary); margin-top: 5px;">154.320</div>
+                            <div style="font-size: 0.75rem; color: #10b981; font-weight: 600; margin-top: 2px;">
+                                <i class="fa-solid fa-arrow-trend-up"></i> Rede Estadual
+                            </div>
+                        </div>
+                        <div style="width: 55px; height: 55px; background: #eef4fc; border-radius: 12px; display: flex; align-items: center; justify-content: center; color: var(--primary); font-size: 1.6rem; flex-shrink: 0;">
+                            <i class="fa-solid fa-graduation-cap"></i>
+                        </div>
+                    </div>
+
+                    <!-- Deficiência -->
+                    <div style="background: white; border: 1px solid var(--border-color); border-radius: 8px; padding: 20px; box-shadow: 0 1px 3px rgba(0,0,0,0.04); display: flex; align-items: center; justify-content: space-between;">
+                        <div>
+                            <div style="font-size: 0.75rem; font-weight: 700; color: #64748b; text-transform: uppercase;">Alunos com Deficiências</div>
+                            <div style="font-size: 2.2rem; font-weight: 800; color: #0284c7; margin-top: 5px;">5.401 <span style="font-size: 1.1rem; font-weight: 600; color: #64748b;">(3.5%)</span></div>
+                            <div style="font-size: 0.75rem; color: #0284c7; font-weight: 600; margin-top: 2px;">
+                                <i class="fa-solid fa-universal-access"></i> Necessidades Especiais Cadastradas
+                            </div>
+                        </div>
+                        <div style="width: 55px; height: 55px; background: #e0f2fe; border-radius: 12px; display: flex; align-items: center; justify-content: center; color: #0284c7; font-size: 1.6rem; flex-shrink: 0;">
+                            <i class="fa-solid fa-universal-access"></i>
+                        </div>
+                    </div>
+
+                    <!-- Transporte Escolar -->
+                    <div style="background: white; border: 1px solid var(--border-color); border-radius: 8px; padding: 20px; box-shadow: 0 1px 3px rgba(0,0,0,0.04); display: flex; align-items: center; justify-content: space-between;">
+                        <div>
+                            <div style="font-size: 0.75rem; font-weight: 700; color: #64748b; text-transform: uppercase;">Transporte Escolar</div>
+                            <div style="font-size: 2.2rem; font-weight: 800; color: #f59e0b; margin-top: 5px;">32.180 <span style="font-size: 1.1rem; font-weight: 600; color: #64748b;">(20.8%)</span></div>
+                            <div style="font-size: 0.75rem; color: #f59e0b; font-weight: 600; margin-top: 2px;">
+                                <i class="fa-solid fa-bus"></i> Utilizam transporte escolar
+                            </div>
+                        </div>
+                        <div style="width: 55px; height: 55px; background: #fef3c7; border-radius: 12px; display: flex; align-items: center; justify-content: center; color: #f59e0b; font-size: 1.6rem; flex-shrink: 0;">
+                            <i class="fa-solid fa-bus"></i>
+                        </div>
+                    </div>
+
+                    <!-- Bolsa Família -->
+                    <div style="background: white; border: 1px solid var(--border-color); border-radius: 8px; padding: 20px; box-shadow: 0 1px 3px rgba(0,0,0,0.04); display: flex; align-items: center; justify-content: space-between;">
+                        <div>
+                            <div style="font-size: 0.75rem; font-weight: 700; color: #64748b; text-transform: uppercase;">Bolsa Família</div>
+                            <div style="font-size: 2.2rem; font-weight: 800; color: #8b5cf6; margin-top: 5px;">45.210 <span style="font-size: 1.1rem; font-weight: 600; color: #64748b;">(29.3%)</span></div>
+                            <div style="font-size: 0.75rem; color: #8b5cf6; font-weight: 600; margin-top: 2px;">
+                                <i class="fa-solid fa-hand-holding-dollar"></i> Beneficiários ativos
+                            </div>
+                        </div>
+                        <div style="width: 55px; height: 55px; background: #ede9fe; border-radius: 12px; display: flex; align-items: center; justify-content: center; color: #8b5cf6; font-size: 1.6rem; flex-shrink: 0;">
+                            <i class="fa-solid fa-hand-holding-dollar"></i>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Tabela Drilldown por Regional -->
+                <div style="background: white; border: 1px solid var(--border-color); border-radius: 10px; margin-bottom: 30px; box-shadow: 0 2px 6px rgba(0,0,0,0.03); overflow: hidden;">
+                    <div style="display: flex; justify-content: space-between; align-items: center; padding: 16px 24px; border-bottom: 1px solid #e2e8f0; background-color: #f8fafc;">
+                        <div>
+                            <h3 id="drilldown-titulo-aluno" style="font-size: 1.05rem; font-weight: 700; color: #334155; margin: 0;">
+                                Indicadores por Regional
+                            </h3>
+                        </div>
+                        <div style="display: flex; align-items: center; gap: 20px;">
+                            <button id="btn-voltar-drilldown-aluno" onclick="voltarDrilldownRegionalAluno()" class="btn-outline" style="display: none; background: white; border: 1px solid #cbd5e1; color: #0284c7; padding: 6px 14px; border-radius: 6px; font-size: 0.8rem; font-weight: 700; cursor: pointer;">
+                                <i class="fa-solid fa-arrow-left"></i> Voltar
+                            </button>
+                            <i class="fa-solid fa-location-dot" style="color: #94a3b8; font-size: 1.1rem;"></i>
+                        </div>
+                    </div>
+                    <div id="container-grafico-drilldown-aluno" style="padding: 0; overflow-x: auto;"></div>
+                </div>
+
+                <!-- Gráficos de Diversidade, Demografia e Inclusão -->
+                <div style="margin-bottom: 30px;">
+                    <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 15px; border-bottom: 2px solid var(--primary); padding-bottom: 6px;">
+                        <i class="fa-solid fa-people-group" style="color: var(--primary); font-size: 1.1rem;"></i>
+                        <h2 style="font-size: 1.1rem; font-weight: 700; color: #1e293b; text-transform: uppercase; letter-spacing: 0.5px; margin: 0;">
+                            Diversidade, Demografia e Inclusão
+                        </h2>
+                    </div>
+
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 20px;">
+                        <!-- Distribuição por Sexo -->
+                        <div style="background: white; border: 1px solid var(--border-color); border-radius: 8px; padding: 20px; box-shadow: 0 1px 3px rgba(0,0,0,0.04);">
+                            <h3 style="font-size: 0.9rem; font-weight: 700; color: #334155; margin-bottom: 15px; display: flex; align-items: center; justify-content: space-between;">
+                                <span><i class="fa-solid fa-venus-mars" style="color: #ec4899; margin-right: 6px;"></i> Distribuição por Sexo</span>
+                                <span style="font-size: 0.7rem; color: #94a3b8; font-weight: normal;">Qtd e %</span>
+                            </h3>
+                            <div style="display: flex; align-items: center; gap: 20px; min-height: 140px;">
+                                <div style="position: relative; width: 110px; height: 110px; border-radius: 50%; background: conic-gradient(#ec4899 0% 51%, #3b82f6 51% 100%); display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
+                                    <div style="width: 70px; height: 70px; background: white; border-radius: 50%; display: flex; flex-direction: column; align-items: center; justify-content: center;">
+                                        <span style="font-size: 0.7rem; font-weight: 700; color: #64748b;">TOTAL</span>
+                                        <span style="font-size: 0.95rem; font-weight: 800; color: #1e293b;">154k</span>
+                                    </div>
+                                </div>
+                                <div style="flex: 1; display: flex; flex-direction: column; gap: 10px;">
+                                    <div style="display: flex; align-items: center; justify-content: space-between; font-size: 0.85rem;">
+                                        <div style="display: flex; align-items: center; gap: 8px;">
+                                            <span style="width: 10px; height: 10px; background: #ec4899; border-radius: 50%;"></span>
+                                            <span style="color: #475569; font-weight: 600;">Feminino</span>
+                                        </div>
+                                        <span style="font-weight: 700; color: #1e293b;">78.703 <span style="color: #64748b; font-size: 0.75rem;">(51.0%)</span></span>
+                                    </div>
+                                    <div style="display: flex; align-items: center; justify-content: space-between; font-size: 0.85rem;">
+                                        <div style="display: flex; align-items: center; gap: 8px;">
+                                            <span style="width: 10px; height: 10px; background: #3b82f6; border-radius: 50%;"></span>
+                                            <span style="color: #475569; font-weight: 600;">Masculino</span>
+                                        </div>
+                                        <span style="font-weight: 700; color: #1e293b;">75.617 <span style="color: #64748b; font-size: 0.75rem;">(49.0%)</span></span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Cor/Raça -->
+                        <div style="background: white; border: 1px solid var(--border-color); border-radius: 8px; padding: 20px; box-shadow: 0 1px 3px rgba(0,0,0,0.04);">
+                            <h3 style="font-size: 0.9rem; font-weight: 700; color: #334155; margin-bottom: 15px; display: flex; align-items: center; justify-content: space-between;">
+                                <span><i class="fa-solid fa-palette" style="color: #8b5cf6; margin-right: 6px;"></i> Distribuição por Cor / Raça</span>
+                                <span style="font-size: 0.7rem; color: #94a3b8; font-weight: normal;">Qtd e %</span>
+                            </h3>
+                            <div style="display: flex; flex-direction: column; gap: 10px;">
+                                <div>
+                                    <div style="display: flex; justify-content: space-between; font-size: 0.8rem; color: #475569; margin-bottom: 3px;">
+                                        <span>Parda</span><span><strong>64.814</strong> (42.0%)</span>
+                                    </div>
+                                    <div style="width: 100%; height: 7px; background: #f1f5f9; border-radius: 4px; overflow: hidden;"><div style="width: 42.0%; height: 100%; background: #d97706; border-radius: 4px;"></div></div>
+                                </div>
+                                <div>
+                                    <div style="display: flex; justify-content: space-between; font-size: 0.8rem; color: #475569; margin-bottom: 3px;">
+                                        <span>Branca</span><span><strong>43.209</strong> (28.0%)</span>
+                                    </div>
+                                    <div style="width: 100%; height: 7px; background: #f1f5f9; border-radius: 4px; overflow: hidden;"><div style="width: 28.0%; height: 100%; background: #94a3b8; border-radius: 4px;"></div></div>
+                                </div>
+                                <div>
+                                    <div style="display: flex; justify-content: space-between; font-size: 0.8rem; color: #475569; margin-bottom: 3px;">
+                                        <span>Preta</span><span><strong>30.864</strong> (20.0%)</span>
+                                    </div>
+                                    <div style="width: 100%; height: 7px; background: #f1f5f9; border-radius: 4px; overflow: hidden;"><div style="width: 20.0%; height: 100%; background: #334155; border-radius: 4px;"></div></div>
+                                </div>
+                                <div>
+                                    <div style="display: flex; justify-content: space-between; font-size: 0.8rem; color: #475569; margin-bottom: 3px;">
+                                        <span>Indígena</span><span><strong>10.802</strong> (7.0%)</span>
+                                    </div>
+                                    <div style="width: 100%; height: 7px; background: #f1f5f9; border-radius: 4px; overflow: hidden;"><div style="width: 7.0%; height: 100%; background: #16a34a; border-radius: 4px;"></div></div>
+                                </div>
+                                <div>
+                                    <div style="display: flex; justify-content: space-between; font-size: 0.8rem; color: #475569; margin-bottom: 3px;">
+                                        <span>Amarela / Não Inf.</span><span><strong>4.631</strong> (3.0%)</span>
+                                    </div>
+                                    <div style="width: 100%; height: 7px; background: #f1f5f9; border-radius: 4px; overflow: hidden;"><div style="width: 3.0%; height: 100%; background: #eab308; border-radius: 4px;"></div></div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Zona de Residência -->
+                        <div style="background: white; border: 1px solid var(--border-color); border-radius: 8px; padding: 20px; box-shadow: 0 1px 3px rgba(0,0,0,0.04);">
+                            <h3 style="font-size: 0.9rem; font-weight: 700; color: #334155; margin-bottom: 15px; display: flex; align-items: center; justify-content: space-between;">
+                                <span><i class="fa-solid fa-tree-city" style="color: #10b981; margin-right: 6px;"></i> Zona de Residência</span>
+                                <span style="font-size: 0.7rem; color: #94a3b8; font-weight: normal;">Urbana vs. Rural</span>
+                            </h3>
+                            <div style="display: flex; align-items: flex-end; justify-content: space-around; height: 150px; border-bottom: 1px solid #e2e8f0; padding-bottom: 8px; margin-top: 15px;">
+                                <div style="display: flex; flex-direction: column; align-items: center; gap: 6px; width: 80px;">
+                                    <span style="font-size: 0.8rem; font-weight: 700; color: #1e293b;">123.456 (80%)</span>
+                                    <div style="width: 45px; height: 80px; background: #3b7bbd; border-radius: 4px 4px 0 0;"></div>
+                                    <span style="font-size: 0.75rem; font-weight: 600; color: #475569;">Urbana</span>
+                                </div>
+                                <div style="display: flex; flex-direction: column; align-items: center; gap: 6px; width: 80px;">
+                                    <span style="font-size: 0.8rem; font-weight: 700; color: #1e293b;">30.864 (20%)</span>
+                                    <div style="width: 45px; height: 25px; background: #10b981; border-radius: 4px 4px 0 0;"></div>
+                                    <span style="font-size: 0.75rem; font-weight: 600; color: #475569;">Rural</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Localização Diferenciada -->
+                        <div style="background: white; border: 1px solid var(--border-color); border-radius: 8px; padding: 20px; box-shadow: 0 1px 3px rgba(0,0,0,0.04);">
+                            <h3 style="font-size: 0.9rem; font-weight: 700; color: #334155; margin-bottom: 15px; display: flex; align-items: center; justify-content: space-between;">
+                                <span><i class="fa-solid fa-map-location-dot" style="color: #0284c7; margin-right: 6px;"></i> Localização Diferenciada (Educacenso)</span>
+                                <span style="font-size: 0.7rem; color: #94a3b8; font-weight: normal;">Qtd e %</span>
+                            </h3>
+                            <div style="display: flex; flex-direction: column; gap: 10px;">
+                                <div>
+                                    <div style="display: flex; justify-content: space-between; font-size: 0.8rem; color: #475569; margin-bottom: 3px;">
+                                        <span>Não está em área dif.</span><span><strong>138.888</strong> (90.0%)</span>
+                                    </div>
+                                    <div style="width: 100%; height: 7px; background: #f1f5f9; border-radius: 4px; overflow: hidden;"><div style="width: 90.0%; height: 100%; background: #3b82f6; border-radius: 4px;"></div></div>
+                                </div>
+                                <div>
+                                    <div style="display: flex; justify-content: space-between; font-size: 0.8rem; color: #475569; margin-bottom: 3px;">
+                                        <span>Terra Indígena</span><span><strong>7.716</strong> (5.0%)</span>
+                                    </div>
+                                    <div style="width: 100%; height: 7px; background: #f1f5f9; border-radius: 4px; overflow: hidden;"><div style="width: 5.0%; height: 100%; background: #16a34a; border-radius: 4px;"></div></div>
+                                </div>
+                                <div>
+                                    <div style="display: flex; justify-content: space-between; font-size: 0.8rem; color: #475569; margin-bottom: 3px;">
+                                        <span>Área de Assentamento</span><span><strong>4.629</strong> (3.0%)</span>
+                                    </div>
+                                    <div style="width: 100%; height: 7px; background: #f1f5f9; border-radius: 4px; overflow: hidden;"><div style="width: 3.0%; height: 100%; background: #d97706; border-radius: 4px;"></div></div>
+                                </div>
+                                <div>
+                                    <div style="display: flex; justify-content: space-between; font-size: 0.8rem; color: #475569; margin-bottom: 3px;">
+                                        <span>Comunidade Quilombola</span><span><strong>3.086</strong> (2.0%)</span>
+                                    </div>
+                                    <div style="width: 100%; height: 7px; background: #f1f5f9; border-radius: 4px; overflow: hidden;"><div style="width: 2.0%; height: 100%; background: #8b5cf6; border-radius: 4px;"></div></div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Nacionalidade -->
+                        <div style="background: white; border: 1px solid var(--border-color); border-radius: 8px; padding: 20px; box-shadow: 0 1px 3px rgba(0,0,0,0.04);">
+                            <h3 style="font-size: 0.9rem; font-weight: 700; color: #334155; margin-bottom: 15px; display: flex; align-items: center; justify-content: space-between;">
+                                <span><i class="fa-solid fa-earth-americas" style="color: #0284c7; margin-right: 6px;"></i> Nacionalidade</span>
+                                <span style="font-size: 0.7rem; color: #94a3b8; font-weight: normal;">Qtd e %</span>
+                            </h3>
+                            <div style="display: flex; flex-direction: column; gap: 10px;">
+                                <div style="display: flex; justify-content: space-between; font-size: 0.85rem; border-bottom: 1px solid #f1f5f9; padding-bottom: 5px;">
+                                    <span style="color: #475569; font-weight: 600;"><i class="fa-solid fa-circle" style="font-size: 0.6rem; color: #2563eb; margin-right: 6px;"></i> Brasileira</span>
+                                    <span style="font-weight: 700; color: #1e293b;">152.005 <span style="color: #64748b; font-size: 0.75rem;">(98.5%)</span></span>
+                                </div>
+                                <div style="display: flex; justify-content: space-between; font-size: 0.85rem; border-bottom: 1px solid #f1f5f9; padding-bottom: 5px;">
+                                    <span style="color: #475569; font-weight: 600;"><i class="fa-solid fa-circle" style="font-size: 0.6rem; color: #0ea5e9; margin-right: 6px;"></i> Brasil. (Nascido Ext.)</span>
+                                    <span style="font-weight: 700; color: #1e293b;">772 <span style="color: #64748b; font-size: 0.75rem;">(0.5%)</span></span>
+                                </div>
+                                <div style="display: flex; justify-content: space-between; font-size: 0.85rem;">
+                                    <span style="color: #475569; font-weight: 600;"><i class="fa-solid fa-circle" style="font-size: 0.6rem; color: #f59e0b; margin-right: 6px;"></i> Estrangeira</span>
+                                    <span style="font-weight: 700; color: #1e293b;">1.543 <span style="color: #64748b; font-size: 0.75rem;">(1.0%)</span></span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Top 5 Países -->
+                        <div style="background: white; border: 1px solid var(--border-color); border-radius: 8px; padding: 20px; box-shadow: 0 1px 3px rgba(0,0,0,0.04);">
+                            <h3 style="font-size: 0.9rem; font-weight: 700; color: #334155; margin-bottom: 12px; display: flex; align-items: center; justify-content: space-between;">
+                                <span><i class="fa-solid fa-flag" style="color: #f59e0b; margin-right: 6px;"></i> Top 5 Países (Estrangeiros)</span>
+                            </h3>
+                            <table style="width: 100%; border-collapse: collapse; font-size: 0.8rem; text-align: left;">
+                                <thead>
+                                    <tr style="border-bottom: 1px solid #e2e8f0; color: #64748b; font-size: 0.7rem; text-transform: uppercase;">
+                                        <th style="padding: 6px 0;">País</th>
+                                        <th style="padding: 6px 0; text-align: right;">Qtd</th>
+                                        <th style="padding: 6px 0; text-align: right;">% Estrang.</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr style="border-bottom: 1px solid #f8fafc;"><td style="padding: 6px 0; font-weight: 600; color: #334155;">1. Venezuela</td><td style="padding: 6px 0; text-align: right; font-weight: 700;">617</td><td style="padding: 6px 0; text-align: right; color: #64748b;">40.0%</td></tr>
+                                    <tr style="border-bottom: 1px solid #f8fafc;"><td style="padding: 6px 0; font-weight: 600; color: #334155;">2. Colômbia</td><td style="padding: 6px 0; text-align: right; font-weight: 700;">308</td><td style="padding: 6px 0; text-align: right; color: #64748b;">20.0%</td></tr>
+                                    <tr style="border-bottom: 1px solid #f8fafc;"><td style="padding: 6px 0; font-weight: 600; color: #334155;">3. Haiti</td><td style="padding: 6px 0; text-align: right; font-weight: 700;">231</td><td style="padding: 6px 0; text-align: right; color: #64748b;">15.0%</td></tr>
+                                    <tr style="border-bottom: 1px solid #f8fafc;"><td style="padding: 6px 0; font-weight: 600; color: #334155;">4. Bolívia</td><td style="padding: 6px 0; text-align: right; font-weight: 700;">154</td><td style="padding: 6px 0; text-align: right; color: #64748b;">10.0%</td></tr>
+                                    <tr><td style="padding: 6px 0; font-weight: 600; color: #334155;">5. Argentina</td><td style="padding: 6px 0; text-align: right; font-weight: 700;">77</td><td style="padding: 6px 0; text-align: right; color: #64748b;">5.0%</td></tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- SEÇÃO ALERTAS -->
+                <div style="margin-bottom: 30px;">
+                    <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 15px; border-bottom: 2px solid #ef4444; padding-bottom: 6px;">
+                        <i class="fa-solid fa-triangle-exclamation" style="color: #ef4444; font-size: 1.1rem;"></i>
+                        <h2 style="font-size: 1.1rem; font-weight: 700; color: #1e293b; text-transform: uppercase; letter-spacing: 0.5px; margin: 0;">
+                            Central de Alertas: Qualidade de Dados e Cadastros Incompletos
+                        </h2>
+                    </div>
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 15px;">
+                        <!-- Alertas adaptados para alunos -->
+                        <div style="background: white; border: 1px solid #fca5a5; border-left: 4px solid #dc2626; border-radius: 8px; padding: 14px; box-shadow: 0 1px 3px rgba(0,0,0,0.03); display: flex; align-items: center; justify-content: space-between; grid-column: 1 / -1;">
+                            <div style="flex: 1;">
+                                <div style="font-size: 0.72rem; font-weight: 700; color: #991b1b; text-transform: uppercase;">Frequência Fora do Intervalo do Turno</div>
+                                <div style="font-size: 1.4rem; font-weight: 800; color: #dc2626; margin-top: 2px; margin-bottom: 8px;">215 <span style="font-size: 0.8rem; font-weight: 600; color: #991b1b;">Total</span></div>
+                                <div style="display: flex; gap: 15px; font-size: 0.75rem; color: #dc2626; font-weight: 600;">
+                                    <span>Matutino: 45</span>
+                                    <span>Vespertino: 60</span>
+                                    <span>Noturno: 80</span>
+                                    <span>Integral: 30</span>
+                                </div>
+                            </div>
+                            <i class="fa-solid fa-clock" style="font-size: 1.8rem; color: #dc2626; opacity: 0.8; margin-left: 15px;"></i>
+                        </div>
+
+                        <div style="background: white; border: 1px solid #fca5a5; border-left: 4px solid #dc2626; border-radius: 8px; padding: 14px; box-shadow: 0 1px 3px rgba(0,0,0,0.03); display: flex; align-items: center; justify-content: space-between;">
+                            <div><div style="font-size: 0.72rem; font-weight: 700; color: #991b1b; text-transform: uppercase;">Sem Sexo Informado</div><div style="font-size: 1.4rem; font-weight: 800; color: #dc2626; margin-top: 2px;">12</div></div><i class="fa-solid fa-venus-mars" style="font-size: 1.4rem; color: #dc2626; opacity: 0.8;"></i>
+                        </div>
+                        <div style="background: white; border: 1px solid #fca5a5; border-left: 4px solid #dc2626; border-radius: 8px; padding: 14px; box-shadow: 0 1px 3px rgba(0,0,0,0.03); display: flex; align-items: center; justify-content: space-between;">
+                            <div><div style="font-size: 0.72rem; font-weight: 700; color: #991b1b; text-transform: uppercase;">Sem Cor / Raça Informada</div><div style="font-size: 1.4rem; font-weight: 800; color: #dc2626; margin-top: 2px;">48</div></div><i class="fa-solid fa-palette" style="font-size: 1.4rem; color: #dc2626; opacity: 0.8;"></i>
+                        </div>
+                        <div style="background: white; border: 1px solid #fca5a5; border-left: 4px solid #dc2626; border-radius: 8px; padding: 14px; box-shadow: 0 1px 3px rgba(0,0,0,0.03); display: flex; align-items: center; justify-content: space-between;">
+                            <div><div style="font-size: 0.72rem; font-weight: 700; color: #991b1b; text-transform: uppercase;">Inconsistência de CPF</div><div style="font-size: 1.4rem; font-weight: 800; color: #dc2626; margin-top: 2px;">3</div></div><i class="fa-solid fa-id-card" style="font-size: 1.4rem; color: #dc2626; opacity: 0.8;"></i>
+                        </div>
+                        <div style="background: white; border: 1px solid #fca5a5; border-left: 4px solid #dc2626; border-radius: 8px; padding: 14px; box-shadow: 0 1px 3px rgba(0,0,0,0.03); display: flex; align-items: center; justify-content: space-between;">
+                            <div><div style="font-size: 0.72rem; font-weight: 700; color: #991b1b; text-transform: uppercase;">Nacionalidade Não Inf.</div><div style="font-size: 1.4rem; font-weight: 800; color: #dc2626; margin-top: 2px;">8</div></div><i class="fa-solid fa-flag" style="font-size: 1.4rem; color: #dc2626; opacity: 0.8;"></i>
+                        </div>
+                        <div style="background: white; border: 1px solid #fca5a5; border-left: 4px solid #dc2626; border-radius: 8px; padding: 14px; box-shadow: 0 1px 3px rgba(0,0,0,0.03); display: flex; align-items: center; justify-content: space-between;">
+                            <div><div style="font-size: 0.72rem; font-weight: 700; color: #991b1b; text-transform: uppercase;">Naturalidade Não Inf.</div><div style="font-size: 1.4rem; font-weight: 800; color: #dc2626; margin-top: 2px;">19</div></div><i class="fa-solid fa-earth-americas" style="font-size: 1.4rem; color: #dc2626; opacity: 0.8;"></i>
+                        </div>
+                        <div style="background: white; border: 1px solid #fca5a5; border-left: 4px solid #dc2626; border-radius: 8px; padding: 14px; box-shadow: 0 1px 3px rgba(0,0,0,0.03); display: flex; align-items: center; justify-content: space-between;">
+                            <div><div style="font-size: 0.72rem; font-weight: 700; color: #991b1b; text-transform: uppercase;">Município de Resid. Não Inf.</div><div style="font-size: 1.4rem; font-weight: 800; color: #dc2626; margin-top: 2px;">34</div></div><i class="fa-solid fa-city" style="font-size: 1.4rem; color: #dc2626; opacity: 0.8;"></i>
+                        </div>
+                        <div style="background: white; border: 1px solid #fca5a5; border-left: 4px solid #dc2626; border-radius: 8px; padding: 14px; box-shadow: 0 1px 3px rgba(0,0,0,0.03); display: flex; align-items: center; justify-content: space-between;">
+                            <div><div style="font-size: 0.72rem; font-weight: 700; color: #991b1b; text-transform: uppercase;">Zona de Residência Não Inf.</div><div style="font-size: 1.4rem; font-weight: 800; color: #dc2626; margin-top: 2px;">42</div></div><i class="fa-solid fa-map" style="font-size: 1.4rem; color: #dc2626; opacity: 0.8;"></i>
+                        </div>
+                        <div style="background: white; border: 1px solid #fca5a5; border-left: 4px solid #dc2626; border-radius: 8px; padding: 14px; box-shadow: 0 1px 3px rgba(0,0,0,0.03); display: flex; align-items: center; justify-content: space-between;">
+                            <div><div style="font-size: 0.72rem; font-weight: 700; color: #991b1b; text-transform: uppercase;">Data Nasc. Inconsistente</div><div style="font-size: 1.4rem; font-weight: 800; color: #dc2626; margin-top: 2px;">5</div></div><i class="fa-solid fa-calendar-xmark" style="font-size: 1.4rem; color: #dc2626; opacity: 0.8;"></i>
+                        </div>
+                        <div style="background: white; border: 1px solid #fca5a5; border-left: 4px solid #dc2626; border-radius: 8px; padding: 14px; box-shadow: 0 1px 3px rgba(0,0,0,0.03); display: flex; align-items: center; justify-content: space-between;">
+                            <div><div style="font-size: 0.72rem; font-weight: 700; color: #991b1b; text-transform: uppercase;">Sem Pai e Mãe (Sem Filiação)</div><div style="font-size: 1.4rem; font-weight: 800; color: #dc2626; margin-top: 2px;">22</div></div><i class="fa-solid fa-users-slash" style="font-size: 1.4rem; color: #dc2626; opacity: 0.8;"></i>
+                        </div>
+                        <div style="background: white; border: 1px solid #fca5a5; border-left: 4px solid #dc2626; border-radius: 8px; padding: 14px; box-shadow: 0 1px 3px rgba(0,0,0,0.03); display: flex; align-items: center; justify-content: space-between;">
+                            <div><div style="font-size: 0.72rem; font-weight: 700; color: #991b1b; text-transform: uppercase;">Transp. Escolar Sem Rota</div><div style="font-size: 1.4rem; font-weight: 800; color: #dc2626; margin-top: 2px;">54</div></div><i class="fa-solid fa-bus" style="font-size: 1.4rem; color: #dc2626; opacity: 0.8;"></i>
+                        </div>
+                        <div style="background: white; border: 1px solid #fca5a5; border-left: 4px solid #dc2626; border-radius: 8px; padding: 14px; box-shadow: 0 1px 3px rgba(0,0,0,0.03); display: flex; align-items: center; justify-content: space-between;">
+                            <div><div style="font-size: 0.72rem; font-weight: 700; color: #991b1b; text-transform: uppercase;">Sem Código INEP</div><div style="font-size: 1.4rem; font-weight: 800; color: #dc2626; margin-top: 2px;">115</div></div><i class="fa-solid fa-barcode" style="font-size: 1.4rem; color: #dc2626; opacity: 0.8;"></i>
+                        </div>
+                    </div>
+                </div>
             </div>
 
             <div id="view-mural">
@@ -3739,6 +4131,22 @@
             }
         }
 
+        function toggleAluno(event) {
+            event.preventDefault();
+            const submenu = document.getElementById('aluno-submenu');
+            const icon = document.getElementById('aluno-icon');
+
+            if (submenu.style.display === 'none') {
+                submenu.style.display = 'block';
+                icon.classList.remove('fa-square-plus');
+                icon.classList.add('fa-square-minus');
+            } else {
+                submenu.style.display = 'none';
+                icon.classList.remove('fa-square-minus');
+                icon.classList.add('fa-square-plus');
+            }
+        }
+
         function ocultarTodasViews() {
             document.getElementById('view-mural').style.display = 'none';
             document.getElementById('view-diagnostico').style.display = 'none';
@@ -3746,6 +4154,7 @@
             if (document.getElementById('view-matricula-inicial')) document.getElementById('view-matricula-inicial').style.display = 'none';
             if (document.getElementById('view-georreferenciamento')) document.getElementById('view-georreferenciamento').style.display = 'none';
             if (document.getElementById('view-dashboard-servidor')) document.getElementById('view-dashboard-servidor').style.display = 'none';
+            if (document.getElementById('view-dashboard-aluno')) document.getElementById('view-dashboard-aluno').style.display = 'none';
         }
 
         function toggleServidor(event) {
@@ -4623,50 +5032,136 @@
         // Lógica do Gráfico Drilldown por Regional
         const dadosDrilldownRegionais = [
             {
-                id: 'PALMAS',
-                nome: 'Diretoria Regional de Palmas',
-                professores: 420,
-                contratos: 180,
+                id: 'REG_0',
+                nome: 'ARAGUAÍNA',
+                professores: 215,
+                contratos: 142,
                 escolas: [
-                    { nome: 'CEM TIRADENTES', professores: 110, contratos: 45 },
-                    { nome: 'COLÉGIO ESTADUAL CRIANÇA ESPERANÇA', professores: 130, contratos: 55 },
-                    { nome: 'CEM DE TAQUARALTO', professores: 95, contratos: 40 },
-                    { nome: 'ESCOLA ESTADUAL VILA UNIÃO', professores: 85, contratos: 40 }
+                    { nome: 'ESCOLA EXEMPLO 1', professores: 129, contratos: 85 },
+                    { nome: 'ESCOLA EXEMPLO 2', professores: 86, contratos: 57 }
                 ]
             },
             {
-                id: 'ARAGUAINA',
-                nome: 'Diretoria Regional de Araguaína',
-                professores: 310,
-                contratos: 140,
+                id: 'REG_1',
+                nome: 'ARAGUATINS',
+                professores: 337,
+                contratos: 150,
                 escolas: [
-                    { nome: 'CEM DE ARAGUAÍNA', professores: 120, contratos: 50 },
-                    { nome: 'COLÉGIO ESTADUAL MODELO', professores: 110, contratos: 50 },
-                    { nome: 'ESCOLA RAIMUNDO ALENCAR', professores: 80, contratos: 40 }
+                    { nome: 'ESCOLA EXEMPLO 1', professores: 202, contratos: 90 },
+                    { nome: 'ESCOLA EXEMPLO 2', professores: 135, contratos: 60 }
                 ]
             },
             {
-                id: 'GURUPI',
-                nome: 'Diretoria Regional de Gurupi',
-                professores: 190,
-                contratos: 80,
+                id: 'REG_2',
+                nome: 'ARRAIAS',
+                professores: 154,
+                contratos: 153,
                 escolas: [
-                    { nome: 'CEM DE GURUPI', professores: 100, contratos: 45 },
-                    { nome: 'COLÉGIO COSTA E SILVA', professores: 90, contratos: 35 }
+                    { nome: 'ESCOLA EXEMPLO 1', professores: 92, contratos: 91 },
+                    { nome: 'ESCOLA EXEMPLO 2', professores: 62, contratos: 62 }
                 ]
             },
             {
-                id: 'PORTO_NACIONAL',
-                nome: 'Diretoria Regional de Porto Nacional',
-                professores: 160,
-                contratos: 60,
+                id: 'REG_3',
+                nome: 'COLINAS DO TOCANTINS',
+                professores: 384,
+                contratos: 150,
                 escolas: [
-                    { nome: 'CEM DE PORTO NACIONAL', professores: 90, contratos: 35 },
-                    { nome: 'COLÉGIO ESTADUAL PORTO', professores: 70, contratos: 25 }
+                    { nome: 'ESCOLA EXEMPLO 1', professores: 230, contratos: 90 },
+                    { nome: 'ESCOLA EXEMPLO 2', professores: 154, contratos: 60 }
+                ]
+            },
+            {
+                id: 'REG_4',
+                nome: 'DIANÓPOLIS',
+                professores: 376,
+                contratos: 126,
+                escolas: [
+                    { nome: 'ESCOLA EXEMPLO 1', professores: 225, contratos: 75 },
+                    { nome: 'ESCOLA EXEMPLO 2', professores: 151, contratos: 51 }
+                ]
+            },
+            {
+                id: 'REG_5',
+                nome: 'GUARAÍ',
+                professores: 288,
+                contratos: 110,
+                escolas: [
+                    { nome: 'ESCOLA EXEMPLO 1', professores: 172, contratos: 66 },
+                    { nome: 'ESCOLA EXEMPLO 2', professores: 116, contratos: 44 }
+                ]
+            },
+            {
+                id: 'REG_6',
+                nome: 'GURUPI',
+                professores: 209,
+                contratos: 164,
+                escolas: [
+                    { nome: 'ESCOLA EXEMPLO 1', professores: 125, contratos: 98 },
+                    { nome: 'ESCOLA EXEMPLO 2', professores: 84, contratos: 66 }
+                ]
+            },
+            {
+                id: 'REG_7',
+                nome: 'MIRACEMA DO TO',
+                professores: 389,
+                contratos: 88,
+                escolas: [
+                    { nome: 'ESCOLA EXEMPLO 1', professores: 233, contratos: 52 },
+                    { nome: 'ESCOLA EXEMPLO 2', professores: 156, contratos: 36 }
+                ]
+            },
+            {
+                id: 'REG_8',
+                nome: 'PALMAS',
+                professores: 317,
+                contratos: 85,
+                escolas: [
+                    { nome: 'ESCOLA EXEMPLO 1', professores: 190, contratos: 51 },
+                    { nome: 'ESCOLA EXEMPLO 2', professores: 127, contratos: 34 }
+                ]
+            },
+            {
+                id: 'REG_9',
+                nome: 'PARAÍSO DO TOCANTINS',
+                professores: 204,
+                contratos: 130,
+                escolas: [
+                    { nome: 'ESCOLA EXEMPLO 1', professores: 122, contratos: 78 },
+                    { nome: 'ESCOLA EXEMPLO 2', professores: 82, contratos: 52 }
+                ]
+            },
+            {
+                id: 'REG_10',
+                nome: 'PEDRO AFONSO',
+                professores: 367,
+                contratos: 89,
+                escolas: [
+                    { nome: 'ESCOLA EXEMPLO 1', professores: 220, contratos: 53 },
+                    { nome: 'ESCOLA EXEMPLO 2', professores: 147, contratos: 36 }
+                ]
+            },
+            {
+                id: 'REG_11',
+                nome: 'PORTO NACIONAL',
+                professores: 363,
+                contratos: 113,
+                escolas: [
+                    { nome: 'ESCOLA EXEMPLO 1', professores: 217, contratos: 67 },
+                    { nome: 'ESCOLA EXEMPLO 2', professores: 146, contratos: 46 }
+                ]
+            },
+            {
+                id: 'REG_12',
+                nome: 'TOCANTINÓPOLIS',
+                professores: 225,
+                contratos: 154,
+                escolas: [
+                    { nome: 'ESCOLA EXEMPLO 1', professores: 135, contratos: 92 },
+                    { nome: 'ESCOLA EXEMPLO 2', professores: 90, contratos: 62 }
                 ]
             }
         ];
-
         let nivelDrilldownAtual = 'RAIZ';
 
         function renderizarGraficoDrilldown() {
@@ -4786,6 +5281,343 @@
         document.addEventListener('DOMContentLoaded', function() {
             renderizarGraficoDrilldown();
         });
+    
+        function toggleFiltrosTopoAluno(event) {
+            if (event) event.preventDefault();
+            const painel = document.getElementById('painel-filtros-topo-aluno');
+            const icone = document.getElementById('icone-toggle-filtros-aluno');
+            if (!painel) return;
+
+            if (painel.style.display === 'none') {
+                painel.style.display = 'block';
+                if (icone) icone.style.transform = 'rotate(180deg)';
+            } else {
+                painel.style.display = 'none';
+                if (icone) icone.style.transform = 'rotate(0deg)';
+            }
+        }
+
+        function abrirDashboardAluno(event) {
+            event.preventDefault();
+            ocultarTodasViews();
+
+            const painel = document.getElementById('painel-filtros-topo-aluno');
+            const icone = document.getElementById('icone-toggle-filtros-aluno');
+            if (painel) painel.style.display = 'none';
+            if (icone) icone.style.transform = 'rotate(0deg)';
+
+            document.getElementById('view-dashboard-aluno').style.display = 'block';
+            renderizarGraficoDrilldownAluno();
+            setTimeout(initChartFrequencia, 100);
+        }
+
+        
+        // Inicialização do Gráfico de Frequência
+        function initChartFrequencia() {
+            const ctx = document.getElementById('chart-frequencia-15d');
+            if (!ctx) return;
+            
+            // Se já existir, destrói para recriar
+            if (window.frequenciaChart) {
+                window.frequenciaChart.destroy();
+            }
+
+            // Gerar 15 dias para o mês atual
+            const labels = [];
+            const dataPresentes = [];
+            const dataFaltosos = [];
+            const hoje = new Date();
+            
+            for(let i=14; i>=0; i--) {
+                let d = new Date(hoje);
+                d.setDate(d.getDate() - i);
+                labels.push(d.getDate() + '/' + (d.getMonth()+1));
+                
+                // Valores mockados
+                let total = 145000 + Math.floor(Math.random() * 5000);
+                let faltosos = Math.floor(total * (0.05 + Math.random() * 0.05)); // 5 a 10% de falta
+                dataPresentes.push(total - faltosos);
+                dataFaltosos.push(faltosos);
+            }
+
+            window.frequenciaChart = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: labels,
+                    datasets: [
+                        {
+                            label: 'Presentes',
+                            data: dataPresentes,
+                            backgroundColor: '#10b981',
+                            borderRadius: 4
+                        },
+                        {
+                            label: 'Faltosos',
+                            data: dataFaltosos,
+                            backgroundColor: '#ef4444',
+                            borderRadius: 4
+                        }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        x: { stacked: true, grid: { display: false } },
+                        y: { stacked: true, beginAtZero: true, border: { display: false } }
+                    },
+                    plugins: {
+                        legend: { position: 'top', align: 'end', labels: { boxWidth: 12, usePointStyle: true, font: { size: 11, family: 'Open Sans' } } }
+                    }
+                }
+            });
+        }
+        
+        // Chamar initChartFrequencia dentro de abrirDashboardAluno
+
+        const dadosDrilldownAlunos = [
+            {
+                id: 'REG_ALUNO_0', nome: 'ARAGUAÍNA',
+                escolas: { total: 79, perc: 7.69 },
+                turmas: { total: 869, perc: 7.69 },
+                alunos: { total: 21725, perc: 7.69 },
+                masc: { total: 10826, perc: 49.83 },
+                fem: { total: 10899, perc: 50.17 },
+                deficiencia: { total: 1986, perc: 9.14 },
+                media: 25.0,
+                escolas_detalhe: []
+            },
+            {
+                id: 'REG_ALUNO_1', nome: 'ARAGUATINS',
+                escolas: { total: 75, perc: 7.69 },
+                turmas: { total: 900, perc: 7.69 },
+                alunos: { total: 25200, perc: 7.69 },
+                masc: { total: 12316, perc: 48.87 },
+                fem: { total: 12884, perc: 51.13 },
+                deficiencia: { total: 1820, perc: 7.22 },
+                media: 28.0,
+                escolas_detalhe: []
+            },
+            {
+                id: 'REG_ALUNO_2', nome: 'ARRAIAS',
+                escolas: { total: 61, perc: 7.69 },
+                turmas: { total: 732, perc: 7.69 },
+                alunos: { total: 16836, perc: 7.69 },
+                masc: { total: 8277, perc: 49.16 },
+                fem: { total: 8559, perc: 50.84 },
+                deficiencia: { total: 1231, perc: 7.31 },
+                media: 23.0,
+                escolas_detalhe: []
+            },
+            {
+                id: 'REG_ALUNO_3', nome: 'COLINAS DO TOCANTINS',
+                escolas: { total: 46, perc: 7.69 },
+                turmas: { total: 414, perc: 7.69 },
+                alunos: { total: 10764, perc: 7.69 },
+                masc: { total: 5488, perc: 50.98 },
+                fem: { total: 5276, perc: 49.02 },
+                deficiencia: { total: 562, perc: 5.22 },
+                media: 26.0,
+                escolas_detalhe: []
+            },
+            {
+                id: 'REG_ALUNO_4', nome: 'DIANÓPOLIS',
+                escolas: { total: 53, perc: 7.69 },
+                turmas: { total: 583, perc: 7.69 },
+                alunos: { total: 12826, perc: 7.69 },
+                masc: { total: 6460, perc: 50.37 },
+                fem: { total: 6366, perc: 49.63 },
+                deficiencia: { total: 1050, perc: 8.19 },
+                media: 22.0,
+                escolas_detalhe: []
+            },
+            {
+                id: 'REG_ALUNO_5', nome: 'GUARAÍ',
+                escolas: { total: 48, perc: 7.69 },
+                turmas: { total: 384, perc: 7.69 },
+                alunos: { total: 11520, perc: 7.69 },
+                masc: { total: 5904, perc: 51.25 },
+                fem: { total: 5616, perc: 48.75 },
+                deficiencia: { total: 903, perc: 7.84 },
+                media: 30.0,
+                escolas_detalhe: []
+            },
+            {
+                id: 'REG_ALUNO_6', nome: 'GURUPI',
+                escolas: { total: 89, perc: 7.69 },
+                turmas: { total: 623, perc: 7.69 },
+                alunos: { total: 15575, perc: 7.69 },
+                masc: { total: 7945, perc: 51.01 },
+                fem: { total: 7630, perc: 48.99 },
+                deficiencia: { total: 1852, perc: 11.89 },
+                media: 25.0,
+                escolas_detalhe: []
+            },
+            {
+                id: 'REG_ALUNO_7', nome: 'MIRACEMA DO TO',
+                escolas: { total: 77, perc: 7.69 },
+                turmas: { total: 924, perc: 7.69 },
+                alunos: { total: 24948, perc: 7.69 },
+                masc: { total: 12637, perc: 50.65 },
+                fem: { total: 12311, perc: 49.35 },
+                deficiencia: { total: 2243, perc: 8.99 },
+                media: 27.0,
+                escolas_detalhe: []
+            },
+            {
+                id: 'REG_ALUNO_8', nome: 'PALMAS',
+                escolas: { total: 54, perc: 7.69 },
+                turmas: { total: 378, perc: 7.69 },
+                alunos: { total: 10206, perc: 7.69 },
+                masc: { total: 5120, perc: 50.17 },
+                fem: { total: 5086, perc: 49.83 },
+                deficiencia: { total: 729, perc: 7.14 },
+                media: 27.0,
+                escolas_detalhe: []
+            },
+            {
+                id: 'REG_ALUNO_9', nome: 'PARAÍSO DO TOCANTINS',
+                escolas: { total: 98, perc: 7.69 },
+                turmas: { total: 1078, perc: 7.69 },
+                alunos: { total: 28028, perc: 7.69 },
+                masc: { total: 13643, perc: 48.68 },
+                fem: { total: 14385, perc: 51.32 },
+                deficiencia: { total: 2555, perc: 9.12 },
+                media: 26.0,
+                escolas_detalhe: []
+            },
+            {
+                id: 'REG_ALUNO_10', nome: 'PEDRO AFONSO',
+                escolas: { total: 40, perc: 7.69 },
+                turmas: { total: 480, perc: 7.69 },
+                alunos: { total: 14400, perc: 7.69 },
+                masc: { total: 7116, perc: 49.42 },
+                fem: { total: 7284, perc: 50.58 },
+                deficiencia: { total: 878, perc: 6.1 },
+                media: 30.0,
+                escolas_detalhe: []
+            },
+            {
+                id: 'REG_ALUNO_11', nome: 'PORTO NACIONAL',
+                escolas: { total: 88, perc: 7.69 },
+                turmas: { total: 616, perc: 7.69 },
+                alunos: { total: 12936, perc: 7.69 },
+                masc: { total: 6491, perc: 50.18 },
+                fem: { total: 6445, perc: 49.82 },
+                deficiencia: { total: 736, perc: 5.69 },
+                media: 21.0,
+                escolas_detalhe: []
+            },
+            {
+                id: 'REG_ALUNO_12', nome: 'TOCANTINÓPOLIS',
+                escolas: { total: 61, perc: 7.69 },
+                turmas: { total: 671, perc: 7.69 },
+                alunos: { total: 15433, perc: 7.69 },
+                masc: { total: 7483, perc: 48.49 },
+                fem: { total: 7950, perc: 51.51 },
+                deficiencia: { total: 1467, perc: 9.51 },
+                media: 23.0,
+                escolas_detalhe: []
+            }
+        ];
+        let nivelDrilldownAtualAluno = 'RAIZ';
+
+        function renderizarGraficoDrilldownAluno() {
+            const container = document.getElementById('container-grafico-drilldown-aluno');
+            const titulo = document.getElementById('drilldown-titulo-aluno');
+            const btnVoltar = document.getElementById('btn-voltar-drilldown-aluno');
+            if (!container) return;
+
+            let html = `
+                <table style="width: 100%; border-collapse: collapse; text-align: left; font-family: sans-serif; font-size: 0.85rem; color: #334155;">
+                    <thead>
+                        <tr style="color: #64748b; font-weight: 700; text-transform: uppercase; font-size: 0.7rem; border-bottom: 2px solid #e2e8f0; background-color: #f8fafc;">
+                            <th style="padding: 14px 20px;">REGIONAL</th>
+                            <th style="padding: 14px 20px; text-align: right;">ESCOLAS (%)</th>
+                            <th style="padding: 14px 20px; text-align: right;">TURMAS (%)</th>
+                            <th style="padding: 14px 20px; text-align: right;">ALUNOS (%)</th>
+                            <th style="padding: 14px 20px; text-align: right;">MASC. (%)</th>
+                            <th style="padding: 14px 20px; text-align: right;">FEM. (%)</th>
+                            <th style="padding: 14px 20px; text-align: right;">DEFICIÊNCIA (%)</th>
+                            <th style="padding: 14px 20px; text-align: center;">MÉDIA/TURMA</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+            `;
+
+            if (nivelDrilldownAtualAluno === 'RAIZ') {
+                titulo.innerText = 'Indicadores por Regional';
+                if (btnVoltar) btnVoltar.style.display = 'none';
+
+                dadosDrilldownAlunos.forEach((reg, index) => {
+                    const bgColor = index % 2 === 0 ? 'white' : '#f1f5f9';
+                    html += `
+                        <tr style="background-color: ${bgColor}; border-bottom: 1px solid #e2e8f0;">
+                            <td style="padding: 14px 20px; font-weight: 700; color: #3b82f6; cursor: pointer;" onclick="executarDrilldownRegionalAluno('${reg.id}')">${reg.nome}</td>
+                            <td style="padding: 14px 20px; text-align: right;"><strong>${reg.escolas.total}</strong> <span style="color: #94a3b8; font-size: 0.75rem;">(${reg.escolas.perc}%)</span></td>
+                            <td style="padding: 14px 20px; text-align: right;"><strong>${reg.turmas.total}</strong> <span style="color: #94a3b8; font-size: 0.75rem;">(${reg.turmas.perc}%)</span></td>
+                            <td style="padding: 14px 20px; text-align: right;"><strong>${reg.alunos.total}</strong> <span style="color: #94a3b8; font-size: 0.75rem;">(${reg.alunos.perc}%)</span></td>
+                            <td style="padding: 14px 20px; text-align: right;"><strong>${reg.masc.total}</strong> <span style="color: #94a3b8; font-size: 0.75rem;">(${reg.masc.perc}%)</span></td>
+                            <td style="padding: 14px 20px; text-align: right;"><strong>${reg.fem.total}</strong> <span style="color: #94a3b8; font-size: 0.75rem;">(${reg.fem.perc}%)</span></td>
+                            <td style="padding: 14px 20px; text-align: right; color: #ef4444;">${reg.deficiencia.total} <span style="color: #94a3b8; font-size: 0.75rem;">(${reg.deficiencia.perc}%)</span></td>
+                            <td style="padding: 14px 20px; text-align: center;">${reg.media}</td>
+                        </tr>
+                    `;
+                });
+            } else {
+                const regSelecionada = dadosDrilldownAlunos.find(r => r.id === nivelDrilldownAtualAluno);
+                if (!regSelecionada) return;
+
+                titulo.innerText = `Indicadores por Escola - ${regSelecionada.nome}`;
+                if (btnVoltar) btnVoltar.style.display = 'inline-flex';
+
+                regSelecionada.escolas_detalhe.forEach((esc, index) => {
+                    const bgColor = index % 2 === 0 ? 'white' : '#f1f5f9';
+                    html += `
+                        <tr style="background-color: ${bgColor}; border-bottom: 1px solid #e2e8f0;">
+                            <td style="padding: 14px 20px; font-weight: 700; color: #3b82f6;">${esc.nome}</td>
+                            <td style="padding: 14px 20px; text-align: right;"><strong>${esc.escolas.total}</strong> <span style="color: #94a3b8; font-size: 0.75rem;">(${esc.escolas.perc}%)</span></td>
+                            <td style="padding: 14px 20px; text-align: right;"><strong>${esc.turmas.total}</strong> <span style="color: #94a3b8; font-size: 0.75rem;">(${esc.turmas.perc}%)</span></td>
+                            <td style="padding: 14px 20px; text-align: right;"><strong>${esc.alunos.total}</strong> <span style="color: #94a3b8; font-size: 0.75rem;">(${esc.alunos.perc}%)</span></td>
+                            <td style="padding: 14px 20px; text-align: right;"><strong>${esc.masc.total}</strong> <span style="color: #94a3b8; font-size: 0.75rem;">(${esc.masc.perc}%)</span></td>
+                            <td style="padding: 14px 20px; text-align: right;"><strong>${esc.fem.total}</strong> <span style="color: #94a3b8; font-size: 0.75rem;">(${esc.fem.perc}%)</span></td>
+                            <td style="padding: 14px 20px; text-align: right; color: #ef4444;">${esc.deficiencia.total} <span style="color: #94a3b8; font-size: 0.75rem;">(${esc.deficiencia.perc}%)</span></td>
+                            <td style="padding: 14px 20px; text-align: center;">${esc.media}</td>
+                        </tr>
+                    `;
+                });
+                
+                if (regSelecionada.escolas_detalhe.length === 0) {
+                    html += `<tr><td colspan="8" style="padding: 20px; text-align: center; color: #64748b;">Nenhuma escola cadastrada nesta regional.</td></tr>`;
+                }
+            }
+
+            html += `
+                    </tbody>
+                </table>
+            `;
+            container.innerHTML = html;
+        }
+
+        function executarDrilldownRegionalAluno(regionalId) {
+            nivelDrilldownAtualAluno = regionalId;
+            renderizarGraficoDrilldownAluno();
+            setTimeout(initChartFrequencia, 100);
+            
+            const toast = document.getElementById('toast-sucesso');
+            if (toast) {
+                toast.innerHTML = `<i class="fa-solid fa-magnifying-glass-chart" style="margin-right: 8px;"></i> Drilldown realizado! Detalhando regional selecionada.`;
+                toast.style.display = 'block';
+                setTimeout(() => { toast.style.display = 'none'; }, 3000);
+            }
+        }
+
+        function voltarDrilldownRegionalAluno() {
+            nivelDrilldownAtualAluno = 'RAIZ';
+            renderizarGraficoDrilldownAluno();
+            setTimeout(initChartFrequencia, 100);
+        }
+
     </script>
 </body>
 
