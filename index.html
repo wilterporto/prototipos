@@ -1109,8 +1109,8 @@
                         </div>
                     </div>
 
-                    <!-- Linha 2 de Filtros: Cargo | Composição de Ensino | Componente Curricular -->
-                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 20px; margin-bottom: 20px;">
+                    <!-- Linha 2 de Filtros: Cargo | Composição de Ensino | Componente Curricular | Tipo de turma -->
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 20px; margin-bottom: 20px;">
                         <div>
                             <label style="display: block; font-size: 0.8rem; font-weight: 700; color: #475569; margin-bottom: 6px;">Cargo</label>
                             <select id="filtro-cargo-topo" style="width: 100%; padding: 9px 12px; border: 1px solid #cbd5e1; border-radius: 6px; outline: none; font-size: 0.85rem; color: #334155; background: white;">
@@ -1147,18 +1147,31 @@
                                 <option value="ARTES">Artes</option>
                             </select>
                         </div>
+                        <div>
+                            <label style="display: block; font-size: 0.8rem; font-weight: 700; color: #475569; margin-bottom: 6px;">Tipo de turma</label>
+                            <select id="filtro-tipo-turma-topo" style="width: 100%; padding: 9px 12px; border: 1px solid #cbd5e1; border-radius: 6px; outline: none; font-size: 0.85rem; color: #334155; background: white;">
+                                <option value="TODAS" selected>Todas</option>
+                                <option value="ESCOLARIZACAO">Escolarização</option>
+                                <option value="ALTERNATIVA">Alternativa</option>
+                                <option value="DIVERSIFICADA">Diversificada</option>
+                                <option value="AEE">AEE</option>
+                            </select>
+                        </div>
                     </div>
 
-                    <!-- Botão Limpar Filtros alinhado à direita -->
-                    <div style="display: flex; justify-content: flex-end;">
+                    <!-- Botões de Ação de Filtro alinhados à direita -->
+                    <div style="display: flex; justify-content: flex-end; gap: 10px;">
                         <button class="btn-outline" onclick="limparFiltrosTopo()" style="background: white; border: 1px solid #cbd5e1; color: #334155; padding: 9px 18px; border-radius: 6px; font-size: 0.85rem; font-weight: 600; display: inline-flex; align-items: center; gap: 8px; cursor: pointer; box-shadow: 0 1px 2px rgba(0,0,0,0.03);">
                             <i class="fa-solid fa-arrows-rotate"></i> Limpar filtros
+                        </button>
+                        <button onclick="aplicarFiltrosTopo()" style="background: #0284c7; border: 1px solid #0284c7; color: white; padding: 9px 18px; border-radius: 6px; font-size: 0.85rem; font-weight: 600; display: inline-flex; align-items: center; gap: 8px; cursor: pointer; box-shadow: 0 1px 2px rgba(2,132,199,0.2);">
+                            <i class="fa-solid fa-filter"></i> Aplicar filtros
                         </button>
                     </div>
                 </div>
 
                 <!-- Grid de Cards de Indicadores (Fiel à Imagem Enviada) -->
-                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(170px, 1fr)); gap: 15px; margin-bottom: 25px;">
+                <div style="display: grid; grid-template-columns: repeat(7, 1fr); gap: 15px; margin-bottom: 25px;">
                     
                     <!-- Card 1: TOTAL DE SERVIDORES ATIVOS -->
                     <div style="background: #3b82f6; border-radius: 10px; padding: 16px 18px; color: white; box-shadow: 0 4px 10px rgba(59, 130, 246, 0.3); display: flex; flex-direction: column; justify-content: space-between; min-height: 105px; border: 2px solid #ffffff;">
@@ -1176,6 +1189,15 @@
                             <i class="fa-solid fa-user-xmark" style="font-size: 1.3rem; opacity: 0.85;"></i>
                         </div>
                         <div id="kpi-val-2" style="font-size: 2.1rem; font-weight: 800; line-height: 1; margin-top: 10px;">0</div>
+                    </div>
+
+                    <!-- Card 2.5: TOTAL AFASTAMENTOS SEM SUBSTITUTO -->
+                    <div style="background: #ef4444; border-radius: 10px; padding: 16px 18px; color: white; box-shadow: 0 4px 10px rgba(239, 68, 68, 0.25); display: flex; flex-direction: column; justify-content: space-between; min-height: 105px;">
+                        <div style="display: flex; justify-content: space-between; align-items: flex-start; gap: 10px;">
+                            <span style="font-size: 0.72rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.4px; line-height: 1.25;">TOTAL AFASTAMENTOS SEM SUBSTITUTO</span>
+                            <i class="fa-solid fa-user-minus" style="font-size: 1.3rem; opacity: 0.85;"></i>
+                        </div>
+                        <div id="kpi-val-2-5" style="font-size: 2.1rem; font-weight: 800; line-height: 1; margin-top: 10px;">0</div>
                     </div>
 
                     <!-- Card 3: DÉFICIT MAGISTÉRIO -->
@@ -1225,6 +1247,7 @@
                                 <h3 id="drilldown-titulo" style="font-size: 1.05rem; font-weight: 700; color: #1e293b; margin: 0;">
                                     Distribuição por Diretoria Regional (Professores vs. Contratos)
                                 </h3>
+                                <i class="fa-solid fa-circle-info" style="color: #94a3b8; font-size: 0.9rem; cursor: help;" title="Um professor pode atuar em mais de uma regional, portanto a quantidade de servidores e contratos por regional não refletirá necessariamente a quantidade exata do total de servidores e contratos da rede."></i>
                             </div>
                             <span id="drilldown-subtitulo" style="font-size: 0.75rem; color: #64748b; margin-top: 4px; display: block;">
                                 Clique sobre uma regional no gráfico para realizar o <strong>drilldown</strong> e visualizar o detalhamento por escolas
@@ -1265,10 +1288,7 @@
                                 <span style="font-size: 0.75rem; color: #64748b;">Proporção de servidores alocados conforme a área de formação acadêmica</span>
                             </div>
                         </div>
-                        <div style="display: flex; align-items: center; gap: 8px; font-size: 0.78rem; font-weight: 700; color: #475569; background: #f8fafc; padding: 6px 12px; border-radius: 20px; border: 1px solid #e2e8f0;">
-                            <i class="fa-solid fa-calculator" style="color: #0284c7;"></i>
-                            <span>Base Total: <strong id="atuacao-total-servidores" style="color: #0f172a;">1.250</strong> servidores</span>
-                        </div>
+
                     </div>
 
                     <!-- Conteúdo Principal do Card em Grid de 2 Colunas -->
@@ -1316,13 +1336,14 @@
 
                     <!-- Barra Visual Proporcional Empilhada -->
                     <div style="margin-top: 18px;">
+                        <div style="font-size: 0.75rem; font-weight: 700; color: #64748b; margin-bottom: 8px; text-transform: uppercase;">Percentual Global da Rede</div>
                         <div style="display: flex; justify-content: space-between; font-size: 0.75rem; font-weight: 700; color: #475569; margin-bottom: 6px;">
-                            <span><i class="fa-solid fa-square" style="color: #16a34a; font-size: 0.7rem; margin-right: 4px;"></i> Dentro da Área (<span id="barra-txt-dentro">78,4%</span>)</span>
-                            <span><i class="fa-solid fa-square" style="color: #d97706; font-size: 0.7rem; margin-right: 4px;"></i> Fora da Área (<span id="barra-txt-fora">21,6%</span>)</span>
+                            <span><i class="fa-solid fa-square" style="color: #16a34a; font-size: 0.7rem; margin-right: 4px;"></i> Dentro da Área (78,4%)</span>
+                            <span><i class="fa-solid fa-square" style="color: #d97706; font-size: 0.7rem; margin-right: 4px;"></i> Fora da Área (21,6%)</span>
                         </div>
                         <div style="display: flex; width: 100%; height: 14px; background: #e2e8f0; border-radius: 7px; overflow: hidden; box-shadow: inset 0 1px 2px rgba(0,0,0,0.05);">
-                            <div id="barra-fill-dentro" style="width: 78.4%; background: linear-gradient(to right, #16a34a, #22c55e); height: 100%; transition: width 0.4s;" title="Dentro da Área: 78,4%"></div>
-                            <div id="barra-fill-fora" style="width: 21.6%; background: linear-gradient(to right, #f59e0b, #d97706); height: 100%; transition: width 0.4s;" title="Fora da Área: 21,6%"></div>
+                            <div style="width: 78.4%; background: linear-gradient(to right, #16a34a, #22c55e); height: 100%;" title="Dentro da Área: 78,4%"></div>
+                            <div style="width: 21.6%; background: linear-gradient(to right, #f59e0b, #d97706); height: 100%;" title="Fora da Área: 21,6%"></div>
                         </div>
                     </div>
                 </div>
@@ -2260,7 +2281,7 @@
                         <div style="display: flex; align-items: center; gap: 8px;">
                             <i class="fa-solid fa-triangle-exclamation" style="color: #ef4444; font-size: 1.1rem;"></i>
                             <h2 style="font-size: 1.1rem; font-weight: 700; color: #1e293b; text-transform: uppercase; letter-spacing: 0.5px; margin: 0;">
-                                Central de Alertas: Qualidade de Dados e Cadastros Incompletos
+                                Central de Alertas
                             </h2>
                         </div>
                         <span style="font-size: 0.75rem; color: #64748b; font-weight: 600;">Monitoramento ativo de consistências na base</span>
@@ -2268,6 +2289,27 @@
 
                     <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 15px;">
                         
+                        <!-- Item Novo: Modulação Ativa em Anos Letivos Encerrados -->
+                        <div style="background: white; border: 1px solid #fecaca; border-left: 4px solid #ef4444; border-radius: 8px; padding: 14px; box-shadow: 0 1px 3px rgba(0,0,0,0.03); display: flex; align-items: center; justify-content: space-between;">
+                            <div>
+                                <div style="display: flex; align-items: center; gap: 5px;">
+                                    <div style="font-size: 0.72rem; font-weight: 700; color: #64748b; text-transform: uppercase;" title="Servidores com modulação ativa em anos letivos encerrados">Modulação Ativa - Ano Encerrado</div>
+                                    <i class="fa-solid fa-circle-info" style="color: #94a3b8; font-size: 0.8rem; cursor: pointer;" title="Encerre as modulações utilizando o recurso de encerramento de modulações em lote"></i>
+                                </div>
+                                <div id="alerta-qtd-modulacao" style="font-size: 1.4rem; font-weight: 800; color: #dc2626; margin-top: 2px;">15</div>
+                            </div>
+                            <i class="fa-solid fa-user-clock" style="font-size: 1.4rem; color: #ef4444; opacity: 0.8;"></i>
+                        </div>
+
+                        <!-- Item Novo: Afastamento Vencido -->
+                        <div style="background: white; border: 1px solid #fecaca; border-left: 4px solid #ef4444; border-radius: 8px; padding: 14px; box-shadow: 0 1px 3px rgba(0,0,0,0.03); display: flex; align-items: center; justify-content: space-between;">
+                            <div>
+                                <div style="font-size: 0.72rem; font-weight: 700; color: #64748b; text-transform: uppercase;" title="Servidores cujo afastamento está com data inferior à data atual e ainda não retornaram">Afastamento Vencido</div>
+                                <div id="alerta-qtd-afastamento-vencido" style="font-size: 1.4rem; font-weight: 800; color: #dc2626; margin-top: 2px;">8</div>
+                            </div>
+                            <i class="fa-solid fa-calendar-xmark" style="font-size: 1.4rem; color: #ef4444; opacity: 0.8;"></i>
+                        </div>
+
                         <!-- Item 1: Sem informação de Sexo -->
                         <div style="background: white; border: 1px solid #fecaca; border-left: 4px solid #ef4444; border-radius: 8px; padding: 14px; box-shadow: 0 1px 3px rgba(0,0,0,0.03); display: flex; align-items: center; justify-content: space-between;">
                             <div>
@@ -2706,7 +2748,7 @@
                     <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 15px; border-bottom: 2px solid #ef4444; padding-bottom: 6px;">
                         <i class="fa-solid fa-triangle-exclamation" style="color: #ef4444; font-size: 1.1rem;"></i>
                         <h2 style="font-size: 1.1rem; font-weight: 700; color: #1e293b; text-transform: uppercase; letter-spacing: 0.5px; margin: 0;">
-                            Central de Alertas: Qualidade de Dados e Cadastros Incompletos
+                            Central de Alertas
                         </h2>
                     </div>
                     <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 15px;">
@@ -4452,142 +4494,153 @@
         let segmentoContextoAtual = 'magisterio';
 
         // Datasets para cada contexto (Magistério, Administrativo, Servidores)
+        const dadosDrilldownRegionais = [
+            {
+                id: 'REG_0',
+                nome: 'ARAGUAÍNA',
+                professores: 142,
+                contratos: 215,
+                escolas: [
+                    { nome: 'ESCOLA EXEMPLO 1', professores: 85, contratos: 129 },
+                    { nome: 'ESCOLA EXEMPLO 2', professores: 57, contratos: 86 }
+                ]
+            },
+            {
+                id: 'REG_1',
+                nome: 'ARAGUATINS',
+                professores: 150,
+                contratos: 337,
+                escolas: [
+                    { nome: 'ESCOLA EXEMPLO 1', professores: 90, contratos: 202 },
+                    { nome: 'ESCOLA EXEMPLO 2', professores: 60, contratos: 135 }
+                ]
+            },
+            {
+                id: 'REG_2',
+                nome: 'ARRAIAS',
+                professores: 153,
+                contratos: 154,
+                escolas: [
+                    { nome: 'ESCOLA EXEMPLO 1', professores: 91, contratos: 92 },
+                    { nome: 'ESCOLA EXEMPLO 2', professores: 62, contratos: 62 }
+                ]
+            },
+            {
+                id: 'REG_3',
+                nome: 'COLINAS DO TOCANTINS',
+                professores: 150,
+                contratos: 384,
+                escolas: [
+                    { nome: 'ESCOLA EXEMPLO 1', professores: 90, contratos: 230 },
+                    { nome: 'ESCOLA EXEMPLO 2', professores: 60, contratos: 154 }
+                ]
+            },
+            {
+                id: 'REG_4',
+                nome: 'DIANÓPOLIS',
+                professores: 126,
+                contratos: 376,
+                escolas: [
+                    { nome: 'ESCOLA EXEMPLO 1', professores: 75, contratos: 225 },
+                    { nome: 'ESCOLA EXEMPLO 2', professores: 51, contratos: 151 }
+                ]
+            },
+            {
+                id: 'REG_5',
+                nome: 'GUARAÍ',
+                professores: 110,
+                contratos: 288,
+                escolas: [
+                    { nome: 'ESCOLA EXEMPLO 1', professores: 66, contratos: 172 },
+                    { nome: 'ESCOLA EXEMPLO 2', professores: 44, contratos: 116 }
+                ]
+            },
+            {
+                id: 'REG_6',
+                nome: 'GURUPI',
+                professores: 164,
+                contratos: 209,
+                escolas: [
+                    { nome: 'ESCOLA EXEMPLO 1', professores: 98, contratos: 125 },
+                    { nome: 'ESCOLA EXEMPLO 2', professores: 66, contratos: 84 }
+                ]
+            },
+            {
+                id: 'REG_7',
+                nome: 'MIRACEMA DO TO',
+                professores: 88,
+                contratos: 389,
+                escolas: [
+                    { nome: 'ESCOLA EXEMPLO 1', professores: 52, contratos: 233 },
+                    { nome: 'ESCOLA EXEMPLO 2', professores: 36, contratos: 156 }
+                ]
+            },
+            {
+                id: 'REG_8',
+                nome: 'PALMAS',
+                professores: 85,
+                contratos: 317,
+                escolas: [
+                    { nome: 'ESCOLA EXEMPLO 1', professores: 51, contratos: 190 },
+                    { nome: 'ESCOLA EXEMPLO 2', professores: 34, contratos: 127 }
+                ]
+            },
+            {
+                id: 'REG_9',
+                nome: 'PARAÍSO DO TOCANTINS',
+                professores: 130,
+                contratos: 204,
+                escolas: [
+                    { nome: 'ESCOLA EXEMPLO 1', professores: 78, contratos: 122 },
+                    { nome: 'ESCOLA EXEMPLO 2', professores: 52, contratos: 82 }
+                ]
+            },
+            {
+                id: 'REG_10',
+                nome: 'PEDRO AFONSO',
+                professores: 89,
+                contratos: 367,
+                escolas: [
+                    { nome: 'ESCOLA EXEMPLO 1', professores: 53, contratos: 220 },
+                    { nome: 'ESCOLA EXEMPLO 2', professores: 36, contratos: 147 }
+                ]
+            },
+            {
+                id: 'REG_11',
+                nome: 'PORTO NACIONAL',
+                professores: 113,
+                contratos: 363,
+                escolas: [
+                    { nome: 'ESCOLA EXEMPLO 1', professores: 67, contratos: 217 },
+                    { nome: 'ESCOLA EXEMPLO 2', professores: 46, contratos: 146 }
+                ]
+            },
+            {
+                id: 'REG_12',
+                nome: 'TOCANTINÓPOLIS',
+                professores: 154,
+                contratos: 225,
+                escolas: [
+                    { nome: 'ESCOLA EXEMPLO 1', professores: 92, contratos: 135 },
+                    { nome: 'ESCOLA EXEMPLO 2', professores: 62, contratos: 90 }
+                ]
+            }
+        ];
+
         const dadosDrilldownPorSegmento = {
-            magisterio: [
-                {
-                    id: 'PALMAS',
-                    nome: 'Diretoria Regional de Palmas',
-                    professores: 420,
-                    contratos: 180,
-                    escolas: [
-                        { nome: 'CEM TIRADENTES', professores: 110, contratos: 45 },
-                        { nome: 'COLÉGIO ESTADUAL CRIANÇA ESPERANÇA', professores: 130, contratos: 55 },
-                        { nome: 'CEM DE TAQUARALTO', professores: 95, contratos: 40 },
-                        { nome: 'ESCOLA ESTADUAL VILA UNIÃO', professores: 85, contratos: 40 }
-                    ]
-                },
-                {
-                    id: 'ARAGUAINA',
-                    nome: 'Diretoria Regional de Araguaína',
-                    professores: 310,
-                    contratos: 140,
-                    escolas: [
-                        { nome: 'CEM DE ARAGUAÍNA', professores: 120, contratos: 50 },
-                        { nome: 'COLÉGIO ESTADUAL MODELO', professores: 110, contratos: 50 },
-                        { nome: 'ESCOLA RAIMUNDO ALENCAR', professores: 80, contratos: 40 }
-                    ]
-                },
-                {
-                    id: 'GURUPI',
-                    nome: 'Diretoria Regional de Gurupi',
-                    professores: 190,
-                    contratos: 80,
-                    escolas: [
-                        { nome: 'CEM DE GURUPI', professores: 100, contratos: 45 },
-                        { nome: 'COLÉGIO COSTA E SILVA', professores: 90, contratos: 35 }
-                    ]
-                },
-                {
-                    id: 'PORTO_NACIONAL',
-                    nome: 'Diretoria Regional de Porto Nacional',
-                    professores: 160,
-                    contratos: 60,
-                    escolas: [
-                        { nome: 'CEM DE PORTO NACIONAL', professores: 90, contratos: 35 },
-                        { nome: 'COLÉGIO ESTADUAL PORTO', professores: 70, contratos: 25 }
-                    ]
-                }
-            ],
-            administrativo: [
-                {
-                    id: 'PALMAS',
-                    nome: 'Diretoria Regional de Palmas',
-                    professores: 110, // representa Efetivos Adm.
-                    contratos: 45,   // representa Contratos Adm.
-                    escolas: [
-                        { nome: 'CEM TIRADENTES', professores: 30, contratos: 12 },
-                        { nome: 'COLÉGIO ESTADUAL CRIANÇA ESPERANÇA', professores: 35, contratos: 15 },
-                        { nome: 'CEM DE TAQUARALTO', professores: 25, contratos: 10 },
-                        { nome: 'ESCOLA ESTADUAL VILA UNIÃO', professores: 20, contratos: 8 }
-                    ]
-                },
-                {
-                    id: 'ARAGUAINA',
-                    nome: 'Diretoria Regional de Araguaína',
-                    professores: 85,
-                    contratos: 35,
-                    escolas: [
-                        { nome: 'CEM DE ARAGUAÍNA', professores: 35, contratos: 15 },
-                        { nome: 'COLÉGIO ESTADUAL MODELO', professores: 30, contratos: 12 },
-                        { nome: 'ESCOLA RAIMUNDO ALENCAR', professores: 20, contratos: 8 }
-                    ]
-                },
-                {
-                    id: 'GURUPI',
-                    nome: 'Diretoria Regional de Gurupi',
-                    professores: 50,
-                    contratos: 20,
-                    escolas: [
-                        { nome: 'CEM DE GURUPI', professores: 30, contratos: 12 },
-                        { nome: 'COLÉGIO COSTA E SILVA', professores: 20, contratos: 8 }
-                    ]
-                },
-                {
-                    id: 'PORTO_NACIONAL',
-                    nome: 'Diretoria Regional de Porto Nacional',
-                    professores: 39,
-                    contratos: 15,
-                    escolas: [
-                        { nome: 'CEM DE PORTO NACIONAL', professores: 22, contratos: 9 },
-                        { nome: 'COLÉGIO ESTADUAL PORTO', professores: 17, contratos: 6 }
-                    ]
-                }
-            ],
-            servidores: [
-                {
-                    id: 'PALMAS',
-                    nome: 'Diretoria Regional de Palmas',
-                    professores: 530,
-                    contratos: 225,
-                    escolas: [
-                        { nome: 'CEM TIRADENTES', professores: 140, contratos: 57 },
-                        { nome: 'COLÉGIO ESTADUAL CRIANÇA ESPERANÇA', professores: 165, contratos: 70 },
-                        { nome: 'CEM DE TAQUARALTO', professores: 120, contratos: 50 },
-                        { nome: 'ESCOLA ESTADUAL VILA UNIÃO', professores: 105, contratos: 48 }
-                    ]
-                },
-                {
-                    id: 'ARAGUAINA',
-                    nome: 'Diretoria Regional de Araguaína',
-                    professores: 395,
-                    contratos: 175,
-                    escolas: [
-                        { nome: 'CEM DE ARAGUAÍNA', professores: 155, contratos: 65 },
-                        { nome: 'COLÉGIO ESTADUAL MODELO', professores: 140, contratos: 62 },
-                        { nome: 'ESCOLA RAIMUNDO ALENCAR', professores: 100, contratos: 48 }
-                    ]
-                },
-                {
-                    id: 'GURUPI',
-                    nome: 'Diretoria Regional de Gurupi',
-                    professores: 240,
-                    contratos: 100,
-                    escolas: [
-                        { nome: 'CEM DE GURUPI', professores: 130, contratos: 57 },
-                        { nome: 'COLÉGIO COSTA E SILVA', professores: 110, contratos: 43 }
-                    ]
-                },
-                {
-                    id: 'PORTO_NACIONAL',
-                    nome: 'Diretoria Regional de Porto Nacional',
-                    professores: 199,
-                    contratos: 75,
-                    escolas: [
-                        { nome: 'CEM DE PORTO NACIONAL', professores: 112, contratos: 44 },
-                        { nome: 'COLÉGIO ESTADUAL PORTO', professores: 87, contratos: 31 }
-                    ]
-                }
-            ]
+            magisterio: dadosDrilldownRegionais,
+            administrativo: dadosDrilldownRegionais.map(r => ({
+                id: r.id, nome: r.nome,
+                professores: Math.round(r.professores * 0.3),
+                contratos: Math.round(r.contratos * 0.3),
+                escolas: r.escolas.map(e => ({ nome: e.nome, professores: Math.round(e.professores * 0.3), contratos: Math.round(e.contratos * 0.3) }))
+            })),
+            servidores: dadosDrilldownRegionais.map(r => ({
+                id: r.id, nome: r.nome,
+                professores: r.professores + Math.round(r.professores * 0.3),
+                contratos: r.contratos + Math.round(r.contratos * 0.3),
+                escolas: r.escolas.map(e => ({ nome: e.nome, professores: e.professores + Math.round(e.professores * 0.3), contratos: e.contratos + Math.round(e.contratos * 0.3) }))
+            }))
         };
 
         function selecionarSegmento(element, segmento) {
@@ -5013,6 +5066,15 @@
             setLoc('out', outObj);
         }
 
+        function aplicarFiltrosTopo() {
+            const toast = document.getElementById('toast-sucesso');
+            if (toast) {
+                toast.innerHTML = '<i class="fa-solid fa-filter" style="margin-right: 8px;"></i> Filtros aplicados com sucesso!';
+                toast.style.display = 'block';
+                setTimeout(() => { toast.style.display = 'none'; }, 3000);
+            }
+        }
+
         function limparFiltrosTopo() {
             if (document.getElementById('filtro-regional-topo')) document.getElementById('filtro-regional-topo').value = 'TODAS';
             if (document.getElementById('filtro-municipio-topo')) document.getElementById('filtro-municipio-topo').value = 'TODOS';
@@ -5020,6 +5082,7 @@
             if (document.getElementById('filtro-cargo-topo')) document.getElementById('filtro-cargo-topo').value = 'TODOS';
             if (document.getElementById('filtro-composicao-topo')) document.getElementById('filtro-composicao-topo').value = 'TODAS';
             if (document.getElementById('filtro-componente-topo')) document.getElementById('filtro-componente-topo').value = 'TODOS';
+            if (document.getElementById('filtro-tipo-turma-topo')) document.getElementById('filtro-tipo-turma-topo').value = 'TODAS';
 
             const toast = document.getElementById('toast-sucesso');
             if (toast) {
@@ -5030,138 +5093,6 @@
         }
 
         // Lógica do Gráfico Drilldown por Regional
-        const dadosDrilldownRegionais = [
-            {
-                id: 'REG_0',
-                nome: 'ARAGUAÍNA',
-                professores: 215,
-                contratos: 142,
-                escolas: [
-                    { nome: 'ESCOLA EXEMPLO 1', professores: 129, contratos: 85 },
-                    { nome: 'ESCOLA EXEMPLO 2', professores: 86, contratos: 57 }
-                ]
-            },
-            {
-                id: 'REG_1',
-                nome: 'ARAGUATINS',
-                professores: 337,
-                contratos: 150,
-                escolas: [
-                    { nome: 'ESCOLA EXEMPLO 1', professores: 202, contratos: 90 },
-                    { nome: 'ESCOLA EXEMPLO 2', professores: 135, contratos: 60 }
-                ]
-            },
-            {
-                id: 'REG_2',
-                nome: 'ARRAIAS',
-                professores: 154,
-                contratos: 153,
-                escolas: [
-                    { nome: 'ESCOLA EXEMPLO 1', professores: 92, contratos: 91 },
-                    { nome: 'ESCOLA EXEMPLO 2', professores: 62, contratos: 62 }
-                ]
-            },
-            {
-                id: 'REG_3',
-                nome: 'COLINAS DO TOCANTINS',
-                professores: 384,
-                contratos: 150,
-                escolas: [
-                    { nome: 'ESCOLA EXEMPLO 1', professores: 230, contratos: 90 },
-                    { nome: 'ESCOLA EXEMPLO 2', professores: 154, contratos: 60 }
-                ]
-            },
-            {
-                id: 'REG_4',
-                nome: 'DIANÓPOLIS',
-                professores: 376,
-                contratos: 126,
-                escolas: [
-                    { nome: 'ESCOLA EXEMPLO 1', professores: 225, contratos: 75 },
-                    { nome: 'ESCOLA EXEMPLO 2', professores: 151, contratos: 51 }
-                ]
-            },
-            {
-                id: 'REG_5',
-                nome: 'GUARAÍ',
-                professores: 288,
-                contratos: 110,
-                escolas: [
-                    { nome: 'ESCOLA EXEMPLO 1', professores: 172, contratos: 66 },
-                    { nome: 'ESCOLA EXEMPLO 2', professores: 116, contratos: 44 }
-                ]
-            },
-            {
-                id: 'REG_6',
-                nome: 'GURUPI',
-                professores: 209,
-                contratos: 164,
-                escolas: [
-                    { nome: 'ESCOLA EXEMPLO 1', professores: 125, contratos: 98 },
-                    { nome: 'ESCOLA EXEMPLO 2', professores: 84, contratos: 66 }
-                ]
-            },
-            {
-                id: 'REG_7',
-                nome: 'MIRACEMA DO TO',
-                professores: 389,
-                contratos: 88,
-                escolas: [
-                    { nome: 'ESCOLA EXEMPLO 1', professores: 233, contratos: 52 },
-                    { nome: 'ESCOLA EXEMPLO 2', professores: 156, contratos: 36 }
-                ]
-            },
-            {
-                id: 'REG_8',
-                nome: 'PALMAS',
-                professores: 317,
-                contratos: 85,
-                escolas: [
-                    { nome: 'ESCOLA EXEMPLO 1', professores: 190, contratos: 51 },
-                    { nome: 'ESCOLA EXEMPLO 2', professores: 127, contratos: 34 }
-                ]
-            },
-            {
-                id: 'REG_9',
-                nome: 'PARAÍSO DO TOCANTINS',
-                professores: 204,
-                contratos: 130,
-                escolas: [
-                    { nome: 'ESCOLA EXEMPLO 1', professores: 122, contratos: 78 },
-                    { nome: 'ESCOLA EXEMPLO 2', professores: 82, contratos: 52 }
-                ]
-            },
-            {
-                id: 'REG_10',
-                nome: 'PEDRO AFONSO',
-                professores: 367,
-                contratos: 89,
-                escolas: [
-                    { nome: 'ESCOLA EXEMPLO 1', professores: 220, contratos: 53 },
-                    { nome: 'ESCOLA EXEMPLO 2', professores: 147, contratos: 36 }
-                ]
-            },
-            {
-                id: 'REG_11',
-                nome: 'PORTO NACIONAL',
-                professores: 363,
-                contratos: 113,
-                escolas: [
-                    { nome: 'ESCOLA EXEMPLO 1', professores: 217, contratos: 67 },
-                    { nome: 'ESCOLA EXEMPLO 2', professores: 146, contratos: 46 }
-                ]
-            },
-            {
-                id: 'REG_12',
-                nome: 'TOCANTINÓPOLIS',
-                professores: 225,
-                contratos: 154,
-                escolas: [
-                    { nome: 'ESCOLA EXEMPLO 1', professores: 135, contratos: 92 },
-                    { nome: 'ESCOLA EXEMPLO 2', professores: 90, contratos: 62 }
-                ]
-            }
-        ];
         let nivelDrilldownAtual = 'RAIZ';
 
         function renderizarGraficoDrilldown() {
@@ -5188,28 +5119,25 @@
                     const pctCont = (reg.contratos / maxVal) * 100;
 
                     html += `
-                        <div onclick="executarDrilldownRegional('${reg.id}')" style="cursor: pointer; padding: 12px 16px; border: 1px solid #f1f5f9; border-radius: 8px; transition: all 0.2s; background: #fafafa;" onmouseover="this.style.background='#f0fdf4'; this.style.borderColor='#bbf7d0';" onmouseout="this.style.background='#fafafa'; this.style.borderColor='#f1f5f9';">
-                            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
-                                <span style="font-size: 0.85rem; font-weight: 700; color: #1e293b;"><i class="fa-solid fa-folder-tree" style="color: #0284c7; margin-right: 6px;"></i> ${reg.nome}</span>
-                                <span style="font-size: 0.75rem; color: #0284c7; font-weight: 700;">Clique para detalhar <i class="fa-solid fa-chevron-right" style="font-size: 0.65rem;"></i></span>
+                        <div onclick="executarDrilldownRegional('${reg.id}')" style="display: flex; cursor: pointer; padding: 10px 0; border-bottom: 1px dashed #e2e8f0; transition: background 0.2s;" onmouseover="this.style.background='#f8fafc';" onmouseout="this.style.background='transparent';">
+                            <!-- Esquerda: Nome da Regional -->
+                            <div style="width: 160px; text-align: right; padding-right: 12px; display: flex; align-items: center; justify-content: flex-end;">
+                                <span style="font-size: 0.75rem; font-weight: 700; color: #64748b; text-transform: uppercase;">${reg.nome}</span>
                             </div>
                             
-                            <!-- Barra Efetivos/Professores -->
-                            <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 6px;">
-                                <span style="font-size: 0.75rem; font-weight: 600; color: #475569; width: 110px;">${rotuloSerie1}</span>
-                                <div style="flex: 1; background: #e2e8f0; height: 12px; border-radius: 6px; overflow: hidden;">
-                                    <div style="width: ${pctProf}%; background: #3b82f6; height: 100%; border-radius: 6px; transition: width 0.4s;"></div>
+                            <!-- Direita: Barras -->
+                            <div style="flex: 1; border-left: 1px solid #cbd5e1; padding-left: 12px; display: flex; flex-direction: column; justify-content: center; gap: 4px; padding-top: 4px; padding-bottom: 4px;">
+                                <!-- Barra 1 (Professores) -->
+                                <div style="display: flex; align-items: center; gap: 6px;">
+                                    <div style="width: ${pctProf}%; background: #3b82f6; height: 12px; border-radius: 2px; transition: width 0.4s;"></div>
+                                    <span style="font-size: 0.75rem; font-weight: 600; color: #1e293b;">${reg.professores}</span>
                                 </div>
-                                <span style="font-size: 0.85rem; font-weight: 800; color: #1e293b; width: 45px; text-align: right;">${reg.professores}</span>
-                            </div>
-
-                            <!-- Barra Contratos -->
-                            <div style="display: flex; align-items: center; gap: 10px;">
-                                <span style="font-size: 0.75rem; font-weight: 600; color: #475569; width: 110px;">${rotuloSerie2}</span>
-                                <div style="flex: 1; background: #e2e8f0; height: 12px; border-radius: 6px; overflow: hidden;">
-                                    <div style="width: ${pctCont}%; background: #f59e0b; height: 100%; border-radius: 6px; transition: width 0.4s;"></div>
+                                
+                                <!-- Barra 2 (Contratos) -->
+                                <div style="display: flex; align-items: center; gap: 6px;">
+                                    <div style="width: ${pctCont}%; background: #f59e0b; height: 12px; border-radius: 2px; transition: width 0.4s;"></div>
+                                    <span style="font-size: 0.75rem; font-weight: 600; color: #1e293b;">${reg.contratos}</span>
                                 </div>
-                                <span style="font-size: 0.85rem; font-weight: 800; color: #1e293b; width: 45px; text-align: right;">${reg.contratos}</span>
                             </div>
                         </div>
                     `;
@@ -5231,27 +5159,25 @@
                     const pctCont = (esc.contratos / maxVal) * 100;
 
                     html += `
-                        <div style="padding: 12px 16px; border: 1px solid #e2e8f0; border-radius: 8px; background: white;">
-                            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
-                                <span style="font-size: 0.85rem; font-weight: 700; color: #334155;"><i class="fa-solid fa-school" style="color: #10b981; margin-right: 6px;"></i> ${esc.nome}</span>
+                        <div style="display: flex; padding: 10px 0; border-bottom: 1px dashed #e2e8f0; background: transparent;">
+                            <!-- Esquerda: Nome da Escola -->
+                            <div style="width: 160px; text-align: right; padding-right: 12px; display: flex; align-items: center; justify-content: flex-end;">
+                                <span style="font-size: 0.75rem; font-weight: 700; color: #64748b; text-transform: uppercase;">${esc.nome}</span>
                             </div>
                             
-                            <!-- Barra 1 -->
-                            <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 6px;">
-                                <span style="font-size: 0.75rem; font-weight: 600; color: #475569; width: 110px;">${rotuloSerie1}</span>
-                                <div style="flex: 1; background: #f1f5f9; height: 12px; border-radius: 6px; overflow: hidden;">
-                                    <div style="width: ${pctProf}%; background: #3b82f6; height: 100%; border-radius: 6px;"></div>
+                            <!-- Direita: Barras -->
+                            <div style="flex: 1; border-left: 1px solid #cbd5e1; padding-left: 12px; display: flex; flex-direction: column; justify-content: center; gap: 4px; padding-top: 4px; padding-bottom: 4px;">
+                                <!-- Barra 1 -->
+                                <div style="display: flex; align-items: center; gap: 6px;">
+                                    <div style="width: ${pctProf}%; background: #3b82f6; height: 12px; border-radius: 2px;"></div>
+                                    <span style="font-size: 0.75rem; font-weight: 600; color: #1e293b;">${esc.professores}</span>
                                 </div>
-                                <span style="font-size: 0.85rem; font-weight: 800; color: #1e293b; width: 45px; text-align: right;">${esc.professores}</span>
-                            </div>
 
-                            <!-- Barra 2 -->
-                            <div style="display: flex; align-items: center; gap: 10px;">
-                                <span style="font-size: 0.75rem; font-weight: 600; color: #475569; width: 110px;">${rotuloSerie2}</span>
-                                <div style="flex: 1; background: #f1f5f9; height: 12px; border-radius: 6px; overflow: hidden;">
-                                    <div style="width: ${pctCont}%; background: #f59e0b; height: 100%; border-radius: 6px;"></div>
+                                <!-- Barra 2 -->
+                                <div style="display: flex; align-items: center; gap: 6px;">
+                                    <div style="width: ${pctCont}%; background: #f59e0b; height: 12px; border-radius: 2px;"></div>
+                                    <span style="font-size: 0.75rem; font-weight: 600; color: #1e293b;">${esc.contratos}</span>
                                 </div>
-                                <span style="font-size: 0.85rem; font-weight: 800; color: #1e293b; width: 45px; text-align: right;">${esc.contratos}</span>
                             </div>
                         </div>
                     `;
