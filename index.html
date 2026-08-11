@@ -1245,7 +1245,7 @@
                             <div style="display: flex; align-items: center; gap: 8px;">
                                 <i class="fa-solid fa-chart-bar" style="color: var(--primary); font-size: 1.1rem;"></i>
                                 <h3 id="drilldown-titulo" style="font-size: 1.05rem; font-weight: 700; color: #1e293b; margin: 0;">
-                                    Distribuição por Diretoria Regional (Professores vs. Contratos)
+                                    Distribuição por Diretoria Regional (Visão Geral)
                                 </h3>
                                 <i class="fa-solid fa-circle-info" style="color: #94a3b8; font-size: 0.9rem; cursor: help;" title="Um professor pode atuar em mais de uma regional, portanto a quantidade de servidores e contratos por regional não refletirá necessariamente a quantidade exata do total de servidores e contratos da rede."></i>
                             </div>
@@ -1256,9 +1256,12 @@
 
                         <div style="display: flex; align-items: center; gap: 20px;">
                             <!-- Legenda do gráfico -->
-                            <div style="display: flex; gap: 15px; font-size: 0.8rem; font-weight: 700;">
-                                <span style="display: flex; align-items: center; gap: 6px; color: #334155;"><span style="width: 12px; height: 12px; background: #3b82f6; border-radius: 3px; display: inline-block;"></span> Professores</span>
-                                <span style="display: flex; align-items: center; gap: 6px; color: #334155;"><span style="width: 12px; height: 12px; background: #f59e0b; border-radius: 3px; display: inline-block;"></span> Contratos</span>
+                            <div style="display: flex; gap: 15px; font-size: 0.8rem; font-weight: 700; flex-wrap: wrap;">
+                                <span id="legenda-professores" onclick="toggleSerie('professores')" style="display: flex; align-items: center; gap: 6px; color: #334155; cursor: pointer; transition: opacity 0.2s;"><span style="width: 12px; height: 12px; background: #3b82f6; border-radius: 3px; display: inline-block;"></span> Professores</span>
+                                <span id="legenda-afastamentos" onclick="toggleSerie('afastamentos')" style="display: flex; align-items: center; gap: 6px; color: #334155; cursor: pointer; transition: opacity 0.2s;"><span style="width: 12px; height: 12px; background: #f59e0b; border-radius: 3px; display: inline-block;"></span> Afastamentos</span>
+                                <span id="legenda-afastamentos_sem_substituto" onclick="toggleSerie('afastamentos_sem_substituto')" style="display: flex; align-items: center; gap: 6px; color: #334155; cursor: pointer; transition: opacity 0.2s;"><span style="width: 12px; height: 12px; background: #ef4444; border-radius: 3px; display: inline-block;"></span> Afastamentos sem substituto</span>
+                                <span id="legenda-deficit" onclick="toggleSerie('deficit')" style="display: flex; align-items: center; gap: 6px; color: #334155; cursor: pointer; transition: opacity 0.2s;"><span style="width: 12px; height: 12px; background: #10b981; border-radius: 3px; display: inline-block;"></span> Déficit</span>
+                                <span id="legenda-superavit" onclick="toggleSerie('superavit')" style="display: flex; align-items: center; gap: 6px; color: #334155; cursor: pointer; transition: opacity 0.2s;"><span style="width: 12px; height: 12px; background: #0ea5e9; border-radius: 3px; display: inline-block;"></span> Superávit</span>
                             </div>
                             
                             <!-- Botão de retorno do drilldown -->
@@ -1480,7 +1483,7 @@
                                     Servidores por Tipo de Formação
                                 </h3>
                             </div>
-                            <span style="font-size: 0.72rem; color: #64748b; font-weight: 600;">Total: <span id="formacao-total">1.250</span></span>
+                            <span style="font-size: 0.72rem; color: #64748b; font-weight: 600;">Total: <span id="formacao-total">1.420</span></span>
                         </div>
 
                         <!-- Lista de Categorias de Formação -->
@@ -1855,7 +1858,7 @@
                         <div style="background: white; border: 1px solid var(--border-color); border-radius: 8px; padding: 20px; box-shadow: 0 1px 3px rgba(0,0,0,0.04);">
                             <h3 style="font-size: 0.9rem; font-weight: 700; color: #334155; margin-bottom: 15px; display: flex; align-items: center; justify-content: space-between;">
                                 <span><i class="fa-solid fa-diagram-project" style="color: #0284c7; margin-right: 6px;"></i> Situação de Modulação</span>
-                                <span style="font-size: 0.72rem; color: #64748b; font-weight: 600;">Total: <span id="modulacao-card-total">1.250</span></span>
+                                <span style="font-size: 0.72rem; color: #64748b; font-weight: 600;">Total: <span id="modulacao-card-total">1.420</span></span>
                             </h3>
 
                             <div style="display: flex; flex-direction: column; gap: 14px;">
@@ -1934,7 +1937,7 @@
                         <div style="background: white; border: 1px solid var(--border-color); border-radius: 8px; padding: 20px; box-shadow: 0 1px 3px rgba(0,0,0,0.04);">
                             <h3 style="font-size: 0.9rem; font-weight: 700; color: #334155; margin-bottom: 15px; display: flex; align-items: center; justify-content: space-between;">
                                 <span><i class="fa-solid fa-building-user" style="color: #10b981; margin-right: 6px;"></i> Situação de Lotação</span>
-                                <span style="font-size: 0.72rem; color: #64748b; font-weight: 600;">Total: <span id="lotacao-card-total">1.250</span></span>
+                                <span style="font-size: 0.72rem; color: #64748b; font-weight: 600;">Total: <span id="lotacao-card-total">1.420</span></span>
                             </h3>
                             <div style="display: flex; flex-direction: column; gap: 12px;">
                                 <div style="display: flex; justify-content: space-between; align-items: center;">
@@ -2073,7 +2076,7 @@
                         <div style="background: white; border: 1px solid var(--border-color); border-radius: 8px; padding: 20px; box-shadow: 0 1px 3px rgba(0,0,0,0.04);">
                             <h3 style="font-size: 0.9rem; font-weight: 700; color: #334155; margin-bottom: 15px; display: flex; align-items: center; justify-content: space-between;">
                                 <span><i class="fa-solid fa-chalkboard-user" style="color: #0284c7; margin-right: 6px;"></i> Professores por Tipo de Função</span>
-                                <span style="font-size: 0.72rem; color: #64748b; font-weight: 600;">Total: <span id="funcao-prof-total">1.250</span></span>
+                                <span style="font-size: 0.72rem; color: #64748b; font-weight: 600;">Total: <span id="funcao-prof-total">1.420</span></span>
                             </h3>
                             <div style="display: flex; flex-direction: column; gap: 12px;">
                                 <!-- Regente I -->
@@ -2113,7 +2116,7 @@
                         <div style="background: white; border: 1px solid var(--border-color); border-radius: 8px; padding: 20px; box-shadow: 0 1px 3px rgba(0,0,0,0.04);">
                             <h3 style="font-size: 0.9rem; font-weight: 700; color: #334155; margin-bottom: 15px; display: flex; align-items: center; justify-content: space-between;">
                                 <span><i class="fa-solid fa-sack-dollar" style="color: #10b981; margin-right: 6px;"></i> Recebem pelo Fundeb</span>
-                                <span style="font-size: 0.72rem; color: #64748b; font-weight: 600;">Base: <span id="fundeb-prof-total">1.250</span></span>
+                                <span style="font-size: 0.72rem; color: #64748b; font-weight: 600;">Base: <span id="fundeb-prof-total">1.420</span></span>
                             </h3>
                             <div style="display: flex; flex-direction: column; gap: 12px;">
                                 <div style="background: #f0fdf4; border: 1px solid #bbf7d0; border-radius: 8px; padding: 16px; display: flex; align-items: center; justify-content: space-between;">
@@ -2138,7 +2141,7 @@
                         <div style="background: white; border: 1px solid var(--border-color); border-radius: 8px; padding: 20px; box-shadow: 0 1px 3px rgba(0,0,0,0.04);">
                             <h3 style="font-size: 0.9rem; font-weight: 700; color: #334155; margin-bottom: 15px; display: flex; align-items: center; justify-content: space-between;">
                                 <span><i class="fa-solid fa-clock-rotate-left" style="color: #2563eb; margin-right: 6px;"></i> Benefício de 6h (Jornada)</span>
-                                <span style="font-size: 0.72rem; color: #64748b; font-weight: 600;">Base: <span id="beneficio-prof-total">1.250</span></span>
+                                <span style="font-size: 0.72rem; color: #64748b; font-weight: 600;">Base: <span id="beneficio-prof-total">1.420</span></span>
                             </h3>
                             <div style="display: flex; flex-direction: column; gap: 12px;">
                                 <div style="background: #eff6ff; border: 1px solid #bfdbfe; border-radius: 8px; padding: 16px; display: flex; align-items: center; justify-content: space-between;">
@@ -4491,6 +4494,21 @@
             }
         }
 
+        
+        let seriesOcultas = new Set();
+        function toggleSerie(serieId) {
+            if (seriesOcultas.has(serieId)) {
+                seriesOcultas.delete(serieId);
+                document.getElementById('legenda-' + serieId).style.opacity = '1';
+                document.getElementById('legenda-' + serieId).style.textDecoration = 'none';
+            } else {
+                seriesOcultas.add(serieId);
+                document.getElementById('legenda-' + serieId).style.opacity = '0.4';
+                document.getElementById('legenda-' + serieId).style.textDecoration = 'line-through';
+            }
+            renderizarGraficoDrilldown();
+        }
+        
         let segmentoContextoAtual = 'magisterio';
 
         // Datasets para cada contexto (Magistério, Administrativo, Servidores)
@@ -4498,131 +4516,118 @@
             {
                 id: 'REG_0',
                 nome: 'ARAGUAÍNA',
-                professores: 142,
-                contratos: 215,
+                professores: 142, afastamentos: 44, afastamentos_sem_substituto: 17, deficit: 66, superavit: 2,
                 escolas: [
-                    { nome: 'ESCOLA EXEMPLO 1', professores: 85, contratos: 129 },
-                    { nome: 'ESCOLA EXEMPLO 2', professores: 57, contratos: 86 }
+                    { nome: 'ESCOLA EXEMPLO 1', professores: 85, afastamentos: 26, afastamentos_sem_substituto: 10, deficit: 40, superavit: 20 },
+                    { nome: 'ESCOLA EXEMPLO 2', professores: 57, afastamentos: 18, afastamentos_sem_substituto: 7, deficit: 27, superavit: 13 }
                 ]
             },
             {
                 id: 'REG_1',
                 nome: 'ARAGUATINS',
-                professores: 150,
-                contratos: 337,
+                professores: 150, afastamentos: 68, afastamentos_sem_substituto: 27, deficit: 103, superavit: 51,
                 escolas: [
-                    { nome: 'ESCOLA EXEMPLO 1', professores: 90, contratos: 202 },
-                    { nome: 'ESCOLA EXEMPLO 2', professores: 60, contratos: 135 }
+                    { nome: 'ESCOLA EXEMPLO 1', professores: 90, afastamentos: 41, afastamentos_sem_substituto: 16, deficit: 62, superavit: 31 },
+                    { nome: 'ESCOLA EXEMPLO 2', professores: 60, afastamentos: 28, afastamentos_sem_substituto: 11, deficit: 42, superavit: 21 }
                 ]
             },
             {
                 id: 'REG_2',
                 nome: 'ARRAIAS',
-                professores: 153,
-                contratos: 154,
+                professores: 153, afastamentos: 31, afastamentos_sem_substituto: 12, deficit: 48, superavit: 3,
                 escolas: [
-                    { nome: 'ESCOLA EXEMPLO 1', professores: 91, contratos: 92 },
-                    { nome: 'ESCOLA EXEMPLO 2', professores: 62, contratos: 62 }
+                    { nome: 'ESCOLA EXEMPLO 1', professores: 91, afastamentos: 19, afastamentos_sem_substituto: 7, deficit: 29, superavit: 14 },
+                    { nome: 'ESCOLA EXEMPLO 2', professores: 62, afastamentos: 13, afastamentos_sem_substituto: 5, deficit: 20, superavit: 10 }
                 ]
             },
             {
                 id: 'REG_3',
                 nome: 'COLINAS DO TOCANTINS',
-                professores: 150,
-                contratos: 384,
+                professores: 150, afastamentos: 77, afastamentos_sem_substituto: 30, deficit: 117, superavit: 58,
                 escolas: [
-                    { nome: 'ESCOLA EXEMPLO 1', professores: 90, contratos: 230 },
-                    { nome: 'ESCOLA EXEMPLO 2', professores: 60, contratos: 154 }
+                    { nome: 'ESCOLA EXEMPLO 1', professores: 90, afastamentos: 47, afastamentos_sem_substituto: 18, deficit: 71, superavit: 35 },
+                    { nome: 'ESCOLA EXEMPLO 2', professores: 60, afastamentos: 31, afastamentos_sem_substituto: 12, deficit: 48, superavit: 24 }
                 ]
             },
             {
                 id: 'REG_4',
                 nome: 'DIANÓPOLIS',
-                professores: 126,
-                contratos: 376,
+                professores: 126, afastamentos: 76, afastamentos_sem_substituto: 30, deficit: 114, superavit: 57,
                 escolas: [
-                    { nome: 'ESCOLA EXEMPLO 1', professores: 75, contratos: 225 },
-                    { nome: 'ESCOLA EXEMPLO 2', professores: 51, contratos: 151 }
+                    { nome: 'ESCOLA EXEMPLO 1', professores: 75, afastamentos: 46, afastamentos_sem_substituto: 18, deficit: 69, superavit: 34 },
+                    { nome: 'ESCOLA EXEMPLO 2', professores: 51, afastamentos: 31, afastamentos_sem_substituto: 12, deficit: 47, superavit: 23 }
                 ]
             },
             {
                 id: 'REG_5',
                 nome: 'GUARAÍ',
-                professores: 110,
-                contratos: 288,
+                professores: 110, afastamentos: 58, afastamentos_sem_substituto: 23, deficit: 88, superavit: 44,
                 escolas: [
-                    { nome: 'ESCOLA EXEMPLO 1', professores: 66, contratos: 172 },
-                    { nome: 'ESCOLA EXEMPLO 2', professores: 44, contratos: 116 }
+                    { nome: 'ESCOLA EXEMPLO 1', professores: 66, afastamentos: 35, afastamentos_sem_substituto: 14, deficit: 53, superavit: 26 },
+                    { nome: 'ESCOLA EXEMPLO 2', professores: 44, afastamentos: 24, afastamentos_sem_substituto: 9, deficit: 36, superavit: 18 }
                 ]
             },
             {
                 id: 'REG_6',
                 nome: 'GURUPI',
-                professores: 164,
-                contratos: 209,
+                professores: 164, afastamentos: 42, afastamentos_sem_substituto: 16, deficit: 64, superavit: 32,
                 escolas: [
-                    { nome: 'ESCOLA EXEMPLO 1', professores: 98, contratos: 125 },
-                    { nome: 'ESCOLA EXEMPLO 2', professores: 66, contratos: 84 }
+                    { nome: 'ESCOLA EXEMPLO 1', professores: 98, afastamentos: 26, afastamentos_sem_substituto: 10, deficit: 39, superavit: 19 },
+                    { nome: 'ESCOLA EXEMPLO 2', professores: 66, afastamentos: 17, afastamentos_sem_substituto: 6, deficit: 27, superavit: 13 }
                 ]
             },
             {
                 id: 'REG_7',
                 nome: 'MIRACEMA DO TO',
-                professores: 88,
-                contratos: 389,
+                professores: 88, afastamentos: 78, afastamentos_sem_substituto: 31, deficit: 118, superavit: 59,
                 escolas: [
-                    { nome: 'ESCOLA EXEMPLO 1', professores: 52, contratos: 233 },
-                    { nome: 'ESCOLA EXEMPLO 2', professores: 36, contratos: 156 }
+                    { nome: 'ESCOLA EXEMPLO 1', professores: 52, afastamentos: 47, afastamentos_sem_substituto: 18, deficit: 71, superavit: 35 },
+                    { nome: 'ESCOLA EXEMPLO 2', professores: 36, afastamentos: 32, afastamentos_sem_substituto: 12, deficit: 48, superavit: 24 }
                 ]
             },
             {
                 id: 'REG_8',
                 nome: 'PALMAS',
-                professores: 85,
-                contratos: 317,
+                professores: 85, afastamentos: 64, afastamentos_sem_substituto: 25, deficit: 97, superavit: 48,
                 escolas: [
-                    { nome: 'ESCOLA EXEMPLO 1', professores: 51, contratos: 190 },
-                    { nome: 'ESCOLA EXEMPLO 2', professores: 34, contratos: 127 }
+                    { nome: 'ESCOLA EXEMPLO 1', professores: 51, afastamentos: 39, afastamentos_sem_substituto: 15, deficit: 59, superavit: 29 },
+                    { nome: 'ESCOLA EXEMPLO 2', professores: 34, afastamentos: 26, afastamentos_sem_substituto: 10, deficit: 40, superavit: 20 }
                 ]
             },
             {
                 id: 'REG_9',
                 nome: 'PARAÍSO DO TOCANTINS',
-                professores: 130,
-                contratos: 204,
+                professores: 130, afastamentos: 41, afastamentos_sem_substituto: 16, deficit: 63, superavit: 31,
                 escolas: [
-                    { nome: 'ESCOLA EXEMPLO 1', professores: 78, contratos: 122 },
-                    { nome: 'ESCOLA EXEMPLO 2', professores: 52, contratos: 82 }
+                    { nome: 'ESCOLA EXEMPLO 1', professores: 78, afastamentos: 25, afastamentos_sem_substituto: 10, deficit: 38, superavit: 19 },
+                    { nome: 'ESCOLA EXEMPLO 2', professores: 52, afastamentos: 17, afastamentos_sem_substituto: 6, deficit: 26, superavit: 13 }
                 ]
             },
             {
                 id: 'REG_10',
                 nome: 'PEDRO AFONSO',
-                professores: 89,
-                contratos: 367,
+                professores: 89, afastamentos: 74, afastamentos_sem_substituto: 29, deficit: 112, superavit: 56,
                 escolas: [
-                    { nome: 'ESCOLA EXEMPLO 1', professores: 53, contratos: 220 },
-                    { nome: 'ESCOLA EXEMPLO 2', professores: 36, contratos: 147 }
+                    { nome: 'ESCOLA EXEMPLO 1', professores: 53, afastamentos: 45, afastamentos_sem_substituto: 18, deficit: 68, superavit: 34 },
+                    { nome: 'ESCOLA EXEMPLO 2', professores: 36, afastamentos: 30, afastamentos_sem_substituto: 12, deficit: 46, superavit: 23 }
                 ]
             },
             {
                 id: 'REG_11',
                 nome: 'PORTO NACIONAL',
-                professores: 113,
-                contratos: 363,
+                professores: 113, afastamentos: 73, afastamentos_sem_substituto: 29, deficit: 110, superavit: 55,
                 escolas: [
-                    { nome: 'ESCOLA EXEMPLO 1', professores: 67, contratos: 217 },
-                    { nome: 'ESCOLA EXEMPLO 2', professores: 46, contratos: 146 }
+                    { nome: 'ESCOLA EXEMPLO 1', professores: 67, afastamentos: 44, afastamentos_sem_substituto: 17, deficit: 67, superavit: 33 },
+                    { nome: 'ESCOLA EXEMPLO 2', professores: 46, afastamentos: 30, afastamentos_sem_substituto: 12, deficit: 45, superavit: 22 }
                 ]
             },
             {
                 id: 'REG_12',
                 nome: 'TOCANTINÓPOLIS',
-                professores: 154,
-                contratos: 225,
+                professores: 154, afastamentos: 46, afastamentos_sem_substituto: 18, deficit: 69, superavit: 34,
                 escolas: [
-                    { nome: 'ESCOLA EXEMPLO 1', professores: 92, contratos: 135 },
-                    { nome: 'ESCOLA EXEMPLO 2', professores: 62, contratos: 90 }
+                    { nome: 'ESCOLA EXEMPLO 1', professores: 92, afastamentos: 28, afastamentos_sem_substituto: 11, deficit: 42, superavit: 21 },
+                    { nome: 'ESCOLA EXEMPLO 2', professores: 62, afastamentos: 19, afastamentos_sem_substituto: 7, deficit: 29, superavit: 14 }
                 ]
             }
         ];
@@ -4632,14 +4637,34 @@
             administrativo: dadosDrilldownRegionais.map(r => ({
                 id: r.id, nome: r.nome,
                 professores: Math.round(r.professores * 0.3),
-                contratos: Math.round(r.contratos * 0.3),
-                escolas: r.escolas.map(e => ({ nome: e.nome, professores: Math.round(e.professores * 0.3), contratos: Math.round(e.contratos * 0.3) }))
+                afastamentos: Math.round(r.afastamentos * 0.3),
+                afastamentos_sem_substituto: Math.round(r.afastamentos_sem_substituto * 0.3),
+                deficit: Math.round(r.deficit * 0.3),
+                superavit: Math.round(r.superavit * 0.3),
+                escolas: r.escolas.map(e => ({ 
+                    nome: e.nome, 
+                    professores: Math.round(e.professores * 0.3), 
+                    afastamentos: Math.round(e.afastamentos * 0.3),
+                    afastamentos_sem_substituto: Math.round(e.afastamentos_sem_substituto * 0.3),
+                    deficit: Math.round(e.deficit * 0.3),
+                    superavit: Math.round(e.superavit * 0.3)
+                }))
             })),
             servidores: dadosDrilldownRegionais.map(r => ({
                 id: r.id, nome: r.nome,
                 professores: r.professores + Math.round(r.professores * 0.3),
-                contratos: r.contratos + Math.round(r.contratos * 0.3),
-                escolas: r.escolas.map(e => ({ nome: e.nome, professores: e.professores + Math.round(e.professores * 0.3), contratos: e.contratos + Math.round(e.contratos * 0.3) }))
+                afastamentos: r.afastamentos + Math.round(r.afastamentos * 0.3),
+                afastamentos_sem_substituto: r.afastamentos_sem_substituto + Math.round(r.afastamentos_sem_substituto * 0.3),
+                deficit: r.deficit + Math.round(r.deficit * 0.3),
+                superavit: r.superavit + Math.round(r.superavit * 0.3),
+                escolas: r.escolas.map(e => ({ 
+                    nome: e.nome, 
+                    professores: e.professores + Math.round(e.professores * 0.3), 
+                    afastamentos: e.afastamentos + Math.round(e.afastamentos * 0.3),
+                    afastamentos_sem_substituto: e.afastamentos_sem_substituto + Math.round(e.afastamentos_sem_substituto * 0.3),
+                    deficit: e.deficit + Math.round(e.deficit * 0.3),
+                    superavit: e.superavit + Math.round(e.superavit * 0.3)
+                }))
             }))
         };
 
@@ -4664,30 +4689,53 @@
             // Atualizar Métricas dos Cards
             const v1 = document.getElementById('kpi-val-1');
             const v2 = document.getElementById('kpi-val-2');
+            const v2_5 = document.getElementById('kpi-val-2-5');
             const l3 = document.getElementById('kpi-lbl-3');
             const v3 = document.getElementById('kpi-val-3');
             const l4 = document.getElementById('kpi-lbl-4');
             const v4 = document.getElementById('kpi-val-4');
             const v5 = document.getElementById('kpi-val-5');
             const v6 = document.getElementById('kpi-val-6');
+            
             // Alternar visibilidade de cards exclusivos do Administrativo
             const cardGestao = document.getElementById('card-funcoes-gestao');
             const cardApoio = document.getElementById('card-apoio-operacional');
             if (segmento === 'administrativo') {
                 if (cardGestao) cardGestao.style.display = 'block';
                 if (cardApoio) cardApoio.style.display = 'block';
+                if (l3) l3.innerText = 'DÉFICIT ADMINISTRATIVO';
+                if (l4) l4.innerText = 'SUPERÁVIT ADMINISTRATIVO';
+            } else if (segmento === 'servidores') {
+                if (cardGestao) cardGestao.style.display = 'none';
+                if (cardApoio) cardApoio.style.display = 'none';
+                if (l3) l3.innerText = 'DÉFICIT GERAL';
+                if (l4) l4.innerText = 'SUPERÁVIT GERAL';
             } else {
                 if (cardGestao) cardGestao.style.display = 'none';
                 if (cardApoio) cardApoio.style.display = 'none';
+                if (l3) l3.innerText = 'DÉFICIT MAGISTÉRIO';
+                if (l4) l4.innerText = 'SUPERÁVIT MAGISTÉRIO';
             }
 
+            // Calculate dynamic totals from data
+            const dadosAtuais = dadosDrilldownPorSegmento[segmento] || dadosDrilldownPorSegmento.magisterio;
+            let sumProf = 0, sumAfast = 0, sumAfastSem = 0, sumDef = 0, sumSup = 0;
+            dadosAtuais.forEach(reg => {
+                sumProf += reg.professores || 0;
+                sumAfast += reg.afastamentos || 0;
+                sumAfastSem += reg.afastamentos_sem_substituto || 0;
+                sumDef += reg.deficit || 0;
+                sumSup += reg.superavit || 0;
+            });
+
+            if (v1) v1.innerText = sumProf.toLocaleString('pt-BR');
+            if (v2) v2.innerText = sumAfast.toLocaleString('pt-BR');
+            if (v2_5) v2_5.innerText = sumAfastSem.toLocaleString('pt-BR');
+            if (v3) v3.innerText = sumDef.toLocaleString('pt-BR');
+            if (v4) v4.innerText = sumSup.toLocaleString('pt-BR');
+
+            // Set fixed texts for other charts for simplicity
             if (segmento === 'administrativo') {
-                if (v1) v1.innerText = '284';
-                if (v2) v2.innerText = '5';
-                if (l3) l3.innerText = 'DÉFICIT ADMINISTRATIVO';
-                if (v3) v3.innerText = '42';
-                if (l4) l4.innerText = 'SUPERÁVIT ADMINISTRATIVO';
-                if (v4) v4.innerText = '2';
                 if (v5) v5.innerText = '85';
                 if (v6) v6.innerText = '85';
                 atualizarCardAtuacao('284', '86,3%', '245', '13,7%', '39');
@@ -4738,12 +4786,6 @@
                 );
                 atualizarAlertasCadastro('2', '10', '1', '2', '4', '6', '7', '1', '0', '1', '0');
             } else if (segmento === 'servidores') {
-                if (v1) v1.innerText = '1.420';
-                if (v2) v2.innerText = '28';
-                if (l3) l3.innerText = 'DÉFICIT GERAL';
-                if (v3) v3.innerText = '675';
-                if (l4) l4.innerText = 'SUPERÁVIT GERAL';
-                if (v4) v4.innerText = '2';
                 if (v5) v5.innerText = '440';
                 if (v6) v6.innerText = '980';
                 atualizarCardAtuacao('1.420', '81,0%', '1.150', '19,0%', '270');
@@ -4770,7 +4812,7 @@
                     { qtd: '1.365', pct: '96,1%' },
                     { qtd: '55', pct: '3,9%' }
                 );
-                atualizarCardFuncoesProf('1.250',
+                atualizarCardFuncoesProf('1.420',
                     { qtd: '720', pct: '57,6%' },
                     { qtd: '380', pct: '30,4%' },
                     { qtd: '150', pct: '12,0%' }
@@ -4794,17 +4836,10 @@
                 );
                 atualizarAlertasCadastro('12', '48', '3', '8', '19', '34', '42', '5', '0', '2', '16');
             } else {
-                // Magistério (Padrão)
-                if (v1) v1.innerText = '12';
-                if (v2) v2.innerText = '0';
-                if (l3) l3.innerText = 'DÉFICIT MAGISTÉRIO';
-                if (v3) v3.innerText = '633';
-                if (l4) l4.innerText = 'SUPERÁVIT MAGISTÉRIO';
-                if (v4) v4.innerText = '0';
                 if (v5) v5.innerText = '13';
                 if (v6) v6.innerText = '13';
-                atualizarCardAtuacao('1.250', '78,4%', '980', '21,6%', '270');
-                atualizarCardFormacao('1.250', 
+                atualizarCardAtuacao('1.420', '78,4%', '980', '21,6%', '270');
+                atualizarCardFormacao('1.420', 
                     { qtd: '620', pct: '49,6%' }, 
                     { qtd: '410', pct: '32,8%' }, 
                     { qtd: '145', pct: '11,6%' }, 
@@ -4819,20 +4854,20 @@
                     { qtd: '18', pct: '1,4%' },
                     { qtd: '7', pct: '0,6%' }
                 );
-                atualizarCardModulacao('1.250',
+                atualizarCardModulacao('1.420',
                     { qtd: '1.185', pct: '94,8%' },
                     { qtd: '65', pct: '5,2%' }
                 );
-                atualizarCardLotacao('1.250',
+                atualizarCardLotacao('1.420',
                     { qtd: '1.180', pct: '94,4%' },
                     { qtd: '70', pct: '5,6%' }
                 );
-                atualizarCardFuncoesProf('1.250',
+                atualizarCardFuncoesProf('1.420',
                     { qtd: '720', pct: '57,6%' },
                     { qtd: '380', pct: '30,4%' },
                     { qtd: '150', pct: '12,0%' }
                 );
-                atualizarCardFundebBeneficio('1.250',
+                atualizarCardFundebBeneficio('1.420',
                     { qtd: '1.120', pct: '89,6%' },
                     { qtd: '310', pct: '24,8%' }
                 );
@@ -5107,7 +5142,7 @@
             const rotuloSerie2 = segmentoContextoAtual === 'administrativo' ? 'Contratos Adm.' : 'Contratos';
 
             if (nivelDrilldownAtual === 'RAIZ') {
-                titulo.innerText = `Distribuição por Diretoria Regional (${rotuloSerie1} vs. ${rotuloSerie2})`;
+                titulo.innerText = `Distribuição por Diretoria Regional (Visão Geral)`;
                 subtitulo.innerHTML = 'Clique sobre uma regional no gráfico para realizar o <strong>drilldown</strong> e visualizar as escolas';
                 if (btnVoltar) btnVoltar.style.display = 'none';
 
@@ -5116,7 +5151,10 @@
                 let html = '';
                 dadosAtuais.forEach(reg => {
                     const pctProf = (reg.professores / maxVal) * 100;
-                    const pctCont = (reg.contratos / maxVal) * 100;
+                    const pctAfast = (reg.afastamentos / maxVal) * 100;
+                    const pctAfastSem = (reg.afastamentos_sem_substituto / maxVal) * 100;
+                    const pctDef = (reg.deficit / maxVal) * 100;
+                    const pctSup = (reg.superavit / maxVal) * 100;
 
                     html += `
                         <div onclick="executarDrilldownRegional('${reg.id}')" style="display: flex; cursor: pointer; padding: 10px 0; border-bottom: 1px dashed #e2e8f0; transition: background 0.2s;" onmouseover="this.style.background='#f8fafc';" onmouseout="this.style.background='transparent';">
@@ -5126,17 +5164,26 @@
                             </div>
                             
                             <!-- Direita: Barras -->
-                            <div style="flex: 1; border-left: 1px solid #cbd5e1; padding-left: 12px; display: flex; flex-direction: column; justify-content: center; gap: 4px; padding-top: 4px; padding-bottom: 4px;">
-                                <!-- Barra 1 (Professores) -->
-                                <div style="display: flex; align-items: center; gap: 6px;">
+                            <div style="flex: 1; border-left: 1px solid #cbd5e1; padding-left: 12px; display: flex; flex-direction: column; justify-content: center; gap: 1px; padding-top: 4px; padding-bottom: 4px;">
+                                <div style="display: ${seriesOcultas.has('professores') ? 'none' : 'flex'}; align-items: center; gap: 6px;">
                                     <div style="width: ${pctProf}%; background: #3b82f6; height: 12px; border-radius: 2px; transition: width 0.4s;"></div>
-                                    <span style="font-size: 0.75rem; font-weight: 600; color: #1e293b;">${reg.professores}</span>
+                                    <span style="font-size: 0.75rem; font-weight: 600; color: #1e293b;" title="Professores">${reg.professores}</span>
                                 </div>
-                                
-                                <!-- Barra 2 (Contratos) -->
-                                <div style="display: flex; align-items: center; gap: 6px;">
-                                    <div style="width: ${pctCont}%; background: #f59e0b; height: 12px; border-radius: 2px; transition: width 0.4s;"></div>
-                                    <span style="font-size: 0.75rem; font-weight: 600; color: #1e293b;">${reg.contratos}</span>
+                                <div style="display: ${seriesOcultas.has('afastamentos') ? 'none' : 'flex'}; align-items: center; gap: 6px;">
+                                    <div style="width: ${pctAfast}%; background: #f59e0b; height: 12px; border-radius: 2px; transition: width 0.4s;"></div>
+                                    <span style="font-size: 0.75rem; font-weight: 600; color: #1e293b;" title="Afastamentos">${reg.afastamentos}</span>
+                                </div>
+                                <div style="display: ${seriesOcultas.has('afastamentos_sem_substituto') ? 'none' : 'flex'}; align-items: center; gap: 6px;">
+                                    <div style="width: ${pctAfastSem}%; background: #ef4444; height: 12px; border-radius: 2px; transition: width 0.4s;"></div>
+                                    <span style="font-size: 0.75rem; font-weight: 600; color: #1e293b;" title="Afastamentos sem substituto">${reg.afastamentos_sem_substituto}</span>
+                                </div>
+                                <div style="display: ${seriesOcultas.has('deficit') ? 'none' : 'flex'}; align-items: center; gap: 6px;">
+                                    <div style="width: ${pctDef}%; background: #10b981; height: 12px; border-radius: 2px; transition: width 0.4s;"></div>
+                                    <span style="font-size: 0.75rem; font-weight: 600; color: #1e293b;" title="Déficit">${reg.deficit}</span>
+                                </div>
+                                <div style="display: ${seriesOcultas.has('superavit') ? 'none' : 'flex'}; align-items: center; gap: 6px;">
+                                    <div style="width: ${pctSup}%; background: #0ea5e9; height: 12px; border-radius: 2px; transition: width 0.4s;"></div>
+                                    <span style="font-size: 0.75rem; font-weight: 600; color: #1e293b;" title="Superávit">${reg.superavit}</span>
                                 </div>
                             </div>
                         </div>
@@ -5148,7 +5195,7 @@
                 if (!regSelecionada) return;
 
                 titulo.innerText = `Detalhamento por Escola - ${regSelecionada.nome}`;
-                subtitulo.innerHTML = `Exibindo a quantidade de ${rotuloSerie1.toLowerCase()} e ${rotuloSerie2.toLowerCase()} por escola da <strong>${regSelecionada.nome}</strong>`;
+                subtitulo.innerHTML = `Exibindo o detalhamento dos indicadores por escola da <strong>${regSelecionada.nome}</strong>`;
                 if (btnVoltar) btnVoltar.style.display = 'inline-flex';
 
                 const maxVal = 180;
@@ -5156,7 +5203,10 @@
                 let html = '';
                 regSelecionada.escolas.forEach(esc => {
                     const pctProf = (esc.professores / maxVal) * 100;
-                    const pctCont = (esc.contratos / maxVal) * 100;
+                    const pctAfast = (esc.afastamentos / maxVal) * 100;
+                    const pctAfastSem = (esc.afastamentos_sem_substituto / maxVal) * 100;
+                    const pctDef = (esc.deficit / maxVal) * 100;
+                    const pctSup = (esc.superavit / maxVal) * 100;
 
                     html += `
                         <div style="display: flex; padding: 10px 0; border-bottom: 1px dashed #e2e8f0; background: transparent;">
@@ -5166,17 +5216,26 @@
                             </div>
                             
                             <!-- Direita: Barras -->
-                            <div style="flex: 1; border-left: 1px solid #cbd5e1; padding-left: 12px; display: flex; flex-direction: column; justify-content: center; gap: 4px; padding-top: 4px; padding-bottom: 4px;">
-                                <!-- Barra 1 -->
-                                <div style="display: flex; align-items: center; gap: 6px;">
+                            <div style="flex: 1; border-left: 1px solid #cbd5e1; padding-left: 12px; display: flex; flex-direction: column; justify-content: center; gap: 1px; padding-top: 4px; padding-bottom: 4px;">
+                                <div style="display: ${seriesOcultas.has('professores') ? 'none' : 'flex'}; align-items: center; gap: 6px;">
                                     <div style="width: ${pctProf}%; background: #3b82f6; height: 12px; border-radius: 2px;"></div>
-                                    <span style="font-size: 0.75rem; font-weight: 600; color: #1e293b;">${esc.professores}</span>
+                                    <span style="font-size: 0.75rem; font-weight: 600; color: #1e293b;" title="Professores">${esc.professores}</span>
                                 </div>
-
-                                <!-- Barra 2 -->
-                                <div style="display: flex; align-items: center; gap: 6px;">
-                                    <div style="width: ${pctCont}%; background: #f59e0b; height: 12px; border-radius: 2px;"></div>
-                                    <span style="font-size: 0.75rem; font-weight: 600; color: #1e293b;">${esc.contratos}</span>
+                                <div style="display: ${seriesOcultas.has('afastamentos') ? 'none' : 'flex'}; align-items: center; gap: 6px;">
+                                    <div style="width: ${pctAfast}%; background: #f59e0b; height: 12px; border-radius: 2px;"></div>
+                                    <span style="font-size: 0.75rem; font-weight: 600; color: #1e293b;" title="Afastamentos">${esc.afastamentos}</span>
+                                </div>
+                                <div style="display: ${seriesOcultas.has('afastamentos_sem_substituto') ? 'none' : 'flex'}; align-items: center; gap: 6px;">
+                                    <div style="width: ${pctAfastSem}%; background: #ef4444; height: 12px; border-radius: 2px;"></div>
+                                    <span style="font-size: 0.75rem; font-weight: 600; color: #1e293b;" title="Afastamentos sem substituto">${esc.afastamentos_sem_substituto}</span>
+                                </div>
+                                <div style="display: ${seriesOcultas.has('deficit') ? 'none' : 'flex'}; align-items: center; gap: 6px;">
+                                    <div style="width: ${pctDef}%; background: #10b981; height: 12px; border-radius: 2px;"></div>
+                                    <span style="font-size: 0.75rem; font-weight: 600; color: #1e293b;" title="Déficit">${esc.deficit}</span>
+                                </div>
+                                <div style="display: ${seriesOcultas.has('superavit') ? 'none' : 'flex'}; align-items: center; gap: 6px;">
+                                    <div style="width: ${pctSup}%; background: #0ea5e9; height: 12px; border-radius: 2px;"></div>
+                                    <span style="font-size: 0.75rem; font-weight: 600; color: #1e293b;" title="Superávit">${esc.superavit}</span>
                                 </div>
                             </div>
                         </div>
